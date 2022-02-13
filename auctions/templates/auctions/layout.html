@@ -52,6 +52,14 @@
         </div>
     </div>
     <!-- End Navbar -->
+
+    {% if messages %}
+        {% for message in messages  %}
+            <div class="aler alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     
     {% block body %}{% endblock body %}
 
