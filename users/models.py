@@ -28,6 +28,9 @@ class Listing(models.Model):
     is_active = models.BooleanField(default=True)
     winner = models.ForeignKey(User, blank=True, null=True, on_delete=PROTECT, related_name="won")
 
+    def __str__(self):
+        return f"{self.title} (ID: {self.id}) by {self.seller}"
+
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name='bids')
@@ -42,7 +45,13 @@ class Bid(models.Model):
         ]
     )
 
+    def __str__(self):
+        return str(self.amount)
+
 
 class Watchlist(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
     listing = models.ForeignKey(Listing, on_delete=CASCADE)
+
+    def __str__(self):
+        return f"{self.user} watching post {self.listing}"
