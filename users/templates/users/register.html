@@ -1,5 +1,6 @@
 {% extends "auctions/layout.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %} Register {% endblock title %}
 
@@ -7,13 +8,13 @@
     <section class="login py-5 border-top-1">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-8 align-item-center">
+                <div class="col-lg-6 col-md-8 align-item-center">
                     <div class="border">
                         <h3 class="bg-gray p-2">Join Today</h3>
                         <form method="POST">
                             {% csrf_token %}
                             <fieldset class="p-2">
-                                {{ form.as_p }}
+                                {{ form|crispy }}
                             </fieldset>
                             <button type="submit" class="m-2 center-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">
 								Sign Up
