@@ -5,27 +5,20 @@ With this project, I wanted to create a more fully featured Django application t
 
 ### User funcationality to add:
 
+* ~~Register for an account
+* List an item for sale
+* Bid on an item
+* Add item to watchlist
+* Update profile and profile picture
+* Comment on an item
+* Update item information and image
+* Delete an item if bidding has not begun
 
-*
-*
-*
-*
-    <li>~~Register for an account~~</li>
-    <li>List an item for sale</li>
-    <li>Bid on an item</li>
-    <li>Add item to watchlist</li>
-    <li>Update profile and profile picture</li>
-    <li>Comment on an item</li>
-    <li>Update item information and image</li>
-    <li>Delete an item if bidding has not begun</li>
-</ul>
 
 ### Goals for this project
+* Make forms crispy
+* Explore model managers
+* Create separate apps for functionality
+* Explore S3 buckets for storing profile and item images
+* Explore deployment with Heroku
 
-<ul>
-    <li>Make forms crispy</li>
-    <li>Explore model managers</li>
-    <li>Create separate apps for functionality</li>
-    <li>Explore S3 buckets for storing profile and item images</li>
-    <li>Explore deployment with Heroku</li>
-</ul>
