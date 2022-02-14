@@ -5,7 +5,7 @@ With this project, I wanted to create a more fully featured Django application t
 
 ### User funcationality to add:
 
-* ~~Register for an account
+* ~~Register for an account~~
 * List an item for sale
 * Bid on an item
 * Add item to watchlist
