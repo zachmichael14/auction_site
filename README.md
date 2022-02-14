@@ -1,7 +1,9 @@
 # Auction style e-commerce site using Django
 
 ## Introduction
-With this project, I wanted to create a more fully featured Django application that I could take through the deployment process. Don't mind the mess, it's a work in progress.
+With this project, I wanted to create a more fully featured Django application that I could take through the deployment process. 
+
+Don't mind the mess, it's a work in progress.
 
 ### User funcationality to add:
 
