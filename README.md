@@ -6,7 +6,7 @@ With this project, I wanted to create a more fully featured Django application t
 ### User funcationality to add:
 
 <ul>
-    ~~<li>Register for an account</li>~~
+    <li>~~Register for an account~~</li>
     <li>List an item for sale</li>
     <li>Bid on an item</li>
     <li>Add item to watchlist</li>
