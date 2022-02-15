@@ -8,6 +8,7 @@ Don't mind the mess, it's a work in progress.
 ### User funcationality to add:
 
 * ~~Register for an account~~
+* Login/logout
 * List an item for sale
 * Bid on an item
 * Add item to watchlist
@@ -20,7 +21,7 @@ Don't mind the mess, it's a work in progress.
 ### Goals for this project
 * Make forms crispy
 * Explore model managers
-* Create separate apps for functionality
+* Create separate apps
 * Explore S3 buckets for storing profile and item images
+* Use class-based views
 * Explore deployment with Heroku
-
