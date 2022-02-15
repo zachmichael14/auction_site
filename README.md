@@ -5,7 +5,7 @@ With this project, I wanted to create a more fully featured Django application t
 
 Don't mind the mess, it's a work in progress.
 
-### User funcationality to add:
+### User functionality to add:
 
 * ~~Register for an account~~
 * Login/logout
