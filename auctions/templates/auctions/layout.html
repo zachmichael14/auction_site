@@ -48,18 +48,26 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Browse</a>
                             </li>
-
-                            
-                            {% if user.is_authenticated %}
-                            
-                            {% else %}
-                                <ul class="navbar-nav ml-auto mt-10">
-                                    <li class="nav-item">
-                                        <a class="nav-link login-button" href="register">Register</a>
-                                    </li>
-                                </ul>
-                            {% endif %}
-                                
+                        {% if user.is_authenticated %}
+                            <li class="nav-item dropdown dropdown-slide">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <strong>{{ user|capfirst }}'s</strong> Account
+                                    <span><i class="fa fa-angle-down"></i></span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'users:profile' %}">My Account</a>
+                                    <a class="dropdown-item" href="#">Edit Account</a>
+                                    <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link login-button" href="{% url 'users:login' %}">Log In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link login-button" href="{% url 'users:register' %}">Register</a>
+                            </li>
+                        {% endif %}     
                         </ul>
                     </div>
                 </nav>

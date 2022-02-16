@@ -1,8 +1,8 @@
 from django.urls import path
-from . import views
+from . import views  as auction_views
 
 app_name = 'auctions'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', auction_views.index, name='index'),
 ]

@@ -11,7 +11,7 @@
                 <div class="col-lg-6 col-md-8 align-item-center">
                     <div class="border">
                         <h3 class="bg-gray p-3">Join Today</h3>
-                        <form method="POST">
+                        <form action="{% url 'users:register' %}" method="POST">
                             {% csrf_token %}
                             <fieldset class="p-3">
                                 {{ form|crispy }}
@@ -22,7 +22,7 @@
                         </form>
                         <div class="border-top p-3">
                             <small class="text-muted">
-                                Already have an account? <a href="#">Sign In</a>
+                                Already have an account? <a href="{% url 'users:login' %}">Sign In</a>
                             </small>
                         </div>
                     </div>
