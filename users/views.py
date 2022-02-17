@@ -1,10 +1,12 @@
-from turtle import update
+from re import template
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
+from django.contrib.auth.views import LogoutView
 
 from .forms import ProfileUpdateForm, UserRegistrationForm, UserUpdateForm
+from .models import User
 
 
 # Create your views here.
@@ -17,7 +19,7 @@ def register(request):
             messages.success(request, f'Account created for {username}. Log in to continue.')
             return redirect('users:login')
     else:
-        resgister_form = UserRegistrationForm()
+        register_form = UserRegistrationForm()
     return render(request, 'users/register.html', {
         'register_form': register_form
     })

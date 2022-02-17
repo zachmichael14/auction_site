@@ -3,17 +3,19 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import CASCADE, PROTECT
 
+from .managers import CategoryManager, ListingManager
 
-# Create your models here.
+
 class Category(models.Model):
     category = models.CharField(max_length=64, unique=True)
+    objects = CategoryManager()
 
     def __str__(self):
         return self.category
 
 
 class Listing(models.Model):
-    seller = models.ForeignKey(User, on_delete=CASCADE, related_name='my_listings')
+    seller = models.ForeignKey(User, on_delete=CASCADE, related_name='user_listings')
     category = models.ForeignKey(Category, on_delete=PROTECT, related_name='listings')
     title = models.CharField(max_length=64)
     description = models.TextField()
@@ -27,10 +29,11 @@ class Listing(models.Model):
     )
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
-    winner = models.ForeignKey(User, blank=True, null=True, on_delete=PROTECT, related_name="won")
+    winner = models.ForeignKey(User, blank=True, null=True, on_delete=PROTECT, related_name='won')
+    objects = ListingManager()
 
     def __str__(self):
-        return f"{self.title} (ID: {self.id}) by {self.seller}"
+        return f'{self.title} (ID: {self.id}) by {self.seller}'
 
 
 class Bid(models.Model):
@@ -55,4 +58,4 @@ class Watchlist(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE)
 
     def __str__(self):
-        return f"{self.user} watching post {self.listing}"
+        return f'{self.user} watching post {self.listing}'

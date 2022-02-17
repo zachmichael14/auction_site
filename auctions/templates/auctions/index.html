@@ -34,17 +34,40 @@
                                         <form action="#" method="POST">
                                             {% csrf_token %}
                                             <div class="form-row">
-                                                
+                                                <div class="form-group col-md-7">
+                                                    {{ search_form }}
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    {{ category_form }}
+                                                </div>
+                                                <div class="form-group colo-md-2 align-self-center">
+                                                    <button type="submit" class="btn btn-primary">Search Now</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+                        <!-- End Search -->
                     </div>
+                    <!-- End Header -->
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- New Arrivals -->
+    <section class="section bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>New Arrivals</h2>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
 {% endblock body %}
