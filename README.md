@@ -8,7 +8,7 @@ Don't mind the mess, it's a work in progress.
 ### User functionality to add:
 
 * ~~Register for an account~~
-* Login/logout
+* ~~Login/logout~~
 * List an item for sale
 * Bid on an item
 * Add item to watchlist
