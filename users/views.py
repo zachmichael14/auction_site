@@ -1,25 +1,36 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
+from turtle import update
 from django.contrib import messages
-from django.urls import reverse
-from .forms import UserRegistrationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+
+from .forms import ProfileUpdateForm, UserRegistrationForm, UserUpdateForm
+
 
 # Create your views here.
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+        register_form = UserRegistrationForm(request.POST)
+        if register_form.is_valid():
+            register_form.save()
+            username = register_form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}. Log in to continue.')
             return redirect('users:login')
     else:
-        form = UserRegistrationForm()
+        resgister_form = UserRegistrationForm()
     return render(request, 'users/register.html', {
-        'form': form
+        'register_form': register_form
     })
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+
+    u_update_form = UserUpdateForm()
+    p_update_form = ProfileUpdateForm()  
+
+    context = {
+        'u_update_form': u_update_form,
+        'p_update_form': p_update_form
+    }
+
+    return render(request, 'users/profile.html', context)

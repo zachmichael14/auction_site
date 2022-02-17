@@ -1,10 +1,50 @@
 {% extends "auctions/layout.html" %}
 
 {% block title %} iBuy {% endblock title %}
-
-
-
     
 {% block body %}
-    THIS IS THE INDEX PAGE
+    <section class="hero-area bg-1 text-center overly">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Header -->
+                    <div class="content-block">
+                        <h1>Welcome to iBuy</h1>
+                        <p>We have the best products from all over the world,
+                            <br>courtesy of sellers like you.
+                        </p>
+                        <!-- Popular Categories -->
+                        <div class="short-popular-category-list text-center">
+                            <h2>Popular Categories</h2>
+                            <ul class="list-inline">
+                            {% for category in popular %}
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fa fa-shopping-cart">{{ category }}</i>
+                                    </a>
+                                </li>
+                            {% endfor %}   
+                            </ul>
+                        </div>
+                        <!-- Search -->
+                        <div class="advanced-search">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-12 col-md-12 align-content-center">
+                                        <form action="#" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-row">
+                                                
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock body %}

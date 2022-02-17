@@ -3,4 +3,12 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return render(request, 'auctions/index.html')
+    
+    context = {
+        "popular": ["g", "d" "d", "d"]
+
+    }
+    return render(request, 'auctions/index.html', context)
+
+
+     
