@@ -36,6 +36,13 @@ class Listing(models.Model):
         return f'{self.title} (ID: {self.id}) by {self.seller}'
 
 
+    @property
+    def top_bid(self):
+        # Return current highest bid for listing
+        top_bid = Bid.objects.filter(listing=self.id).order_by("-amount").first()
+        return top_bid
+
+
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name='bids')
     bidder = models.ForeignKey(User, on_delete=CASCADE, related_name='placed_bids')
