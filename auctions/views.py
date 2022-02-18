@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import DetailView
+from multiprocessing import context
+from django.shortcuts import get_object_or_404, render
+
+import auctions
 
 from .models import Category, Listing
 
@@ -18,8 +20,11 @@ def index(request):
     }
     return render(request, 'auctions/index.html', context)
 
+def listing(request, listing_id):
+    listing = get_object_or_404(Listing, pk=listing_id)
 
-class ListingDetailView(DetailView):
-    model = Listing
-    pk_url_kwarg = 'listing_id'
-    
+    context = {
+        'listing': listing
+    }
+
+    return render(request, 'auctions/listing.html', context)

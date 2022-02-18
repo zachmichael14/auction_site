@@ -5,5 +5,5 @@ app_name = 'auctions'
 
 urlpatterns = [
     path('', auction_views.index, name='index'),
-    path('<int:listing_id>/', auction_views.DetailView.as_view(), name='listing')
+    path('listing/<int:listing_id>/', auction_views.listing, name='listing')
 ]
