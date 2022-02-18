@@ -371,11 +371,11 @@ button {
   padding-top: 50px;
 }
 
-.overly {
+.tint {
   position: relative;
 }
 
-.overly:before {
+.tint:before {
   content: '';
   background: rgba(0, 0, 0, 0.51);
   position: absolute;

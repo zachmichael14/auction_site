@@ -4,22 +4,22 @@
 {% block title %} {{ user }}'s Account {% endblock title %}
 
 {% block body %}
-    <section class="dashboard-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                    <div class="sidebar">
-                        <div class="widget user-dashboard-profile">
-                            <div class="profile-thumb">
-                                <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="{{ user }} profile picture.">
-                            </div>
-                            <h5 class="text-center">{{ user }}</h5>
-                            <p>Joined {{ user.date_joined|date:"F d, Y"}}</p>
-                        </div>
-                    </div>
-                </div>
+  <section class="dashboard-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+          <div class="sidebar">
+            <div class="widget user-dashboard-profile">
+              <div class="profile-thumb">
+                <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="{{ user }} profile picture.">
+              </div>
+              <h5 class="text-center">{{ user }}</h5>
+              <p>Joined {{ user.date_joined|date:"F d, Y"}}</p>
             </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 {% endblock body %}
     

@@ -3,17 +3,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Requried Meta Tags -->
+  <!-- Requried Meta Tags -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <!-- Font Awesome -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <!-- Font Awesome -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<!-- Favicon -->
 	<link href="{% static 'auctions/images/favicon.png' %}" rel="shortcut icon">
 	<!-- Bootstrap -->
@@ -34,96 +34,99 @@
 	<title>{% block title %}{% endblock %}</title>
 </head>
 <body class="body-wrapper">
-    <!-- Navbar -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light navigation"></navclass>
-                    <strong><a href="{% url 'auctions:index' %}">iBuy</strong>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ml-auto main-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'auctions:index' %}">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Browse</a>
-                            </li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item dropdown dropdown-slide">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <strong>{{ user|capfirst }}'s</strong> Account
-                                    <span><i class="fa fa-angle-down"></i></span>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{% url 'users:profile' %}">My Account</a>
-                                    <a class="dropdown-item" href="#">Edit Account</a>
-                                    <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
-                                </div>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link login-button" href="{% url 'users:login' %}">Log In</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link login-button" href="{% url 'users:register' %}">Register</a>
-                            </li>
-                        {% endif %}     
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  <!-- Navbar -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <nav class="navbar navbar-expand-lg navbar-light navigation"></navclass>
+          <strong><a href="{% url 'auctions:index' %}">iBuy</strong>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto main-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'auctions:index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Browse</a>
+              </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown dropdown-slide">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                  <strong>{{ user|capfirst }}'s</strong> Account
+                  <span><i class="fa fa-angle-down"></i></span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'users:profile' %}">My Account</a>
+                  <a class="dropdown-item" href="#">Edit Account</a>
+                  <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'users:login' %}">Log In</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'users:register' %}">Register</a>
+              </li>
+            {% endif %}     
+            </ul>
+          </div>
+        </nav>
+      </div>
     </div>
-    <!-- End Navbar -->
+  </div>
+  <!-- End Navbar -->
 
-    {% if messages %}
-        {% for message in messages  %}
-            <div class="aler alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
+  {% if messages %}
+    {% for message in messages  %}
+      <div class="aler alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
     
-    {% block body %}{% endblock body %}
+  {% block body %}
+  <!-- Body -->
+  {% endblock body %}
 
-    <footer class="footer section section-sm">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
-                    <div class="block about">
-                        <p class="alt-color">
-                            Here at iBuy, we connect sellers and buyers worldwide, and we've been proud to do so for over 10 years.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3">
-                    <div class="block">
-                        <h4>Site Map</h4>
-                        <ul>
-                            <li><a href="{% url 'auctions:index' %}">Home</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
-                    <div class="block">
-                        <h4>Account Pages</h4>
-                    </div>
-                </div>
-            </div>
+  <!-- Footer -->
+  <footer class="footer section section-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
+          <div class="block about">
+            <p class="alt-color">
+              Here at iBuy, we connect sellers and buyers worldwide, and we've been proud to do so for over 10 years.
+            </p>
+          </div>
         </div>
-    </footer>
-    <!-- Javascript -->
-  	<script src="{% static 'auctions/plugins/jQuery/jquery.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/bootstrap/js/popper.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/bootstrap/js/bootstrap-slider.js' %}"></script>
-  	<!-- Tether JS -->
-  	<script src="{% static 'auctions/plugins/tether/js/tether.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/raty/jquery.raty-fa.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/slick-carousel/slick/slick.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/jquery-nice-select/js/jquery.nice-select.min.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/fancybox/jquery.fancybox.pack.js' %}"></script>
-  	<script src="{% static 'auctions/plugins/smoothscroll/SmoothScroll.min.js' %}"></script>
-  	<script src="{% static 'auctions/js/script.js' %}"></script>             
+        <div class="col-lg-2 offset-lg-1 col-md-3">
+          <div class="block">
+            <h4>Site Map</h4>
+            <ul>
+              <li><a href="{% url 'auctions:index' %}">Home</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
+          <div class="block">
+            <h4>Account Pages</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Javascript -->
+	<script src="{% static 'auctions/plugins/jQuery/jquery.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/bootstrap/js/popper.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/bootstrap/js/bootstrap-slider.js' %}"></script>
+	<!-- Tether JS -->
+	<script src="{% static 'auctions/plugins/tether/js/tether.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/raty/jquery.raty-fa.js' %}"></script>
+	<script src="{% static 'auctions/plugins/slick-carousel/slick/slick.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/jquery-nice-select/js/jquery.nice-select.min.js' %}"></script>
+	<script src="{% static 'auctions/plugins/fancybox/jquery.fancybox.pack.js' %}"></script>
+	<script src="{% static 'auctions/plugins/smoothscroll/SmoothScroll.min.js' %}"></script>
+	<script src="{% static 'auctions/js/script.js' %}"></script>             
 </body>
 </html>
