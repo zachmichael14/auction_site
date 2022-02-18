@@ -15,16 +15,27 @@ def index(request):
 
     context = {
         'popular': Category.objects.popular(),
-        'new_arrivals': new_arrivals
-
+        'new_arrivals': new_arrivals,
     }
     return render(request, 'auctions/index.html', context)
 
 def listing(request, listing_id):
+    user = request.user
     listing = get_object_or_404(Listing, pk=listing_id)
+    is_seller = listing.is_seller()
+    is_current_winner = False
+
+    if user.is_authenticated:
+        is_seller = listing.is_seller(user=user)
+        
+        if user == listing.top_bid.bidder:
+            is_current_winner = True
+        
 
     context = {
-        'listing': listing
+        'listing': listing,
+        'is_seller': is_seller,
+        'is_current_winner': is_current_winner
     }
 
     return render(request, 'auctions/listing.html', context)

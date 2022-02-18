@@ -25,6 +25,7 @@
           <div>
             <!-- PRODUCT IMAGE TO GO HERE -->
           </div>
+          <!-- Listing Info Tabs -->
           <div class="content mt-5 pt-5">
             <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
               <li class="nav-item">
@@ -43,7 +44,83 @@
 								</a>
 							</li>
             </ul>
-          </div>
+            <div class="tab-content" id="pills-tabContent">
+              <!-- Product Description Tab-->
+              <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <h3 class="tab-title">Product Description</h3>
+                <p>{{ listing.description }}</p>
+              </div>
+              <!-- Auction Details Tab -->
+              <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+								<h3 class="tab-title">Auction Details</h3>
+								<table class="table table-bordered product-table">
+									<tbody>
+										<tr>
+											<td>Seller</td>
+											<td>{{ listing.seller }}</td>
+										</tr>
+										<tr>
+											<td>Posted</td>
+											<td>{{ listing.creation_timestamp|date:'F d, Y' }}</td>
+										</tr>
+										<tr>
+											<td>Current Bid</td>
+											<td>${{ listing.top_bid }}</td>
+										</tr>
+										<tr>
+											<td>Starting Bid</td>
+											<td>${{ listing.starting_bid }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+              <!-- Comments Tab -->
+              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <h3 class="tab-title">Comments</h3>
+                <!-- COMMENTS TO GO HERE -->
+              </div>
+            </div>
+          <!-- End Listing Info Tabs -->
+        </div>
+      </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <div class="sidebar">
+        <!-- Bid Widget -->
+        <div class="widget price text-center">
+        {% if not listing.is_active %}
+          <h4>This auction is closed.</h4>
+        {% else %}
+          <h4 class="bid-header">Current Bid</h4>
+          <div class="bid-data">${{ listing.top_bid }}</div>
+          <h4 class="bid-header">Open for</h4>
+          <div class="bid-data">{{ listing.end_date|timeuntil }}</div>
+          <!-- Bid Form -->
+          {% if user.is_authenticated %}
+            {% if not is_seller %}
+              <h4 class="bid-header">Your Bid</h4>
+
+            {% if is_winner %}
+              <div>You are the current winner! You may still increase your bid if you wish.</div>
+            {% endif %}
+
+            <!-- BID FORM TO GO HERE -->
+
+            {% endif %}
+          {% endif %}
+        {% endif %}
+        </div>
+        <!-- User Widget -->
+        <div class="widget user text-center">
+          <h5 class="widget-header">Listed By:</h5>
+          <img class="rounded-circle img-fluid mb-5 px-5" src="{{ user.profile.image.url }}" alt="{{ user }} profile image">
+          <h4><a href="#">{{ listing.seller }}</a></h4>
+          <p class="member-time">Member since {{ user.date_joined|date:"F d, Y" }}</p>
+        </div>
+        <!-- Watchlist Widget -->
+        <div class="widget watchlist">         
+          <!-- WATCHLIST WIDGET TO GO HERE -->
         </div>
       </div>
     </div>

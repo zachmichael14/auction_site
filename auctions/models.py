@@ -42,6 +42,11 @@ class Listing(models.Model):
         top_bid = Bid.objects.filter(listing=self.id).order_by("-amount").first()
         return top_bid
 
+    def is_seller(self, user=None):
+        if user == self.seller:
+            return True
+        return False
+
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name='bids')

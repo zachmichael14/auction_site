@@ -1656,11 +1656,11 @@ ul.pagination .active a {
   color: #888;
 }
 
-.product-review .review-submission .rate {
+.product-review .review-submission .watchlist {
   margin-bottom: 20px;
 }
 
-.product-review .review-submission .rate i {
+.product-review .review-submission .watchlist i {
   margin: 0 5px;
 }
 
@@ -1835,12 +1835,12 @@ ul.pagination .active a {
   margin-bottom: 25px;
 }
 
-.widget.rate .starrr {
+.widget.watchlist .starrr {
   display: flex;
   justify-content: center;
 }
 
-.widget.rate .starrr i {
+.widget.watchlist .starrr i {
   font-size: 20px;
   cursor: pointer;
   color: #e6b322;
