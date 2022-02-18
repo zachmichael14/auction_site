@@ -11,6 +11,6 @@ class CategoryManager(Manager):
 class ListingManager(Manager):
     def new_arrivals(self, user=None, n=6):
         # Return n most recently created listings
-        if user.is_authenticated:
+        if user:
             return self.exclude(is_active=False).exclude(seller=user).order_by('-creation_timestamp')[:n]
         return self.exclude(is_active=False).order_by('-creation_timestamp')[:n]

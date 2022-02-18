@@ -1,16 +1,19 @@
-from http.client import NETWORK_AUTHENTICATION_REQUIRED
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DetailView
-from .models import Listing, Category
+
+from .models import Category, Listing
 
 
-# Create your views here.
 def index(request):
-    
+    new_arrivals = Listing.objects.new_arrivals()
+
+    # Exclude user's listings from appearing in new arrivals
+    if request.user.is_authenticated:
+        new_arrivals = Listing.objects.new_arrivals(user=request.user)
+
     context = {
         'popular': Category.objects.popular(),
-        'new_arrivals': Listing.objects.new_arrivals(user=request.user)
+        'new_arrivals': new_arrivals
 
     }
     return render(request, 'auctions/index.html', context)
