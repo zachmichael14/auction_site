@@ -1,3 +1,4 @@
+from http.client import NETWORK_AUTHENTICATION_REQUIRED
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -9,7 +10,7 @@ def index(request):
     
     context = {
         'popular': Category.objects.popular(),
-        'new_arrivals': Listing.objects.new_arrivals()
+        'new_arrivals': Listing.objects.new_arrivals(user=request.user)
 
     }
     return render(request, 'auctions/index.html', context)
