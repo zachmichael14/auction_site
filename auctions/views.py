@@ -1,9 +1,8 @@
-from multiprocessing import context
 from django.shortcuts import get_object_or_404, render
 
-import auctions
 
 from .models import Category, Listing
+from .forms import BidForm
 
 
 def index(request):
@@ -35,7 +34,18 @@ def listing(request, listing_id):
     context = {
         'listing': listing,
         'is_seller': is_seller,
-        'is_current_winner': is_current_winner
+        'is_current_winner': is_current_winner,
+        'bid_form': BidForm()
     }
 
     return render(request, 'auctions/listing.html', context)
+
+def bid(request):
+    if request.method == 'POST':
+        bid_form = BidForm(request.POST)
+        if bid_form.is_valid():
+            bid = bid_form.save(commit=False)
+            bid.listing = listing
+            bid.bidder = request.user
+            bid.save()
+            

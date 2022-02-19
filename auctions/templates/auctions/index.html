@@ -77,22 +77,22 @@
               <div class="card">
                 <!-- Card Thumbnail -->
                 <div class="product-thumb">
-                  <a href="#">
+                  <a href="{% url 'auctions:listing' listing.id %}">
                     <img class="card-img-top img-fluid small-img" src="#" alt="{{ listing.title }} image">
                   </a>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                  <h4 class="card-title"><a href="#">{{ listing.title }}</a></h4>
+                  <h4 class="card-title"><a href="{% url 'auctions:listing' listing.id %}">{{ listing.title }}</a></h4>
                   <ul class="list-inline product-meta">
                     <li class="list-item pb-1">
-                      <a href="#"><i class="fa fa-folder-open-o"></i>{{ listing.category }}</a>
+                      <a href="{% url 'auctions:listing' listing.id %}"><i class="fa fa-folder-open-o"></i>{{ listing.category }}</a>
                     </li>
                     <li class="list--item pb-1">
-                      <a href="#"><i class="fa fa-calendar"></i>{{ listing.creation_timestamp|date:'F d, Y' }}</a>
+                      <a href="{% url 'auctions:listing' listing.id %}"><i class="fa fa-calendar"></i>{{ listing.creation_timestamp|date:'F d, Y' }}</a>
                     </li>
                     <li class="list-item pb-1">
-                      <a href="#"><i class="fa fa-clock-o"></i>{{ listing.end_date|timeuntil }} remaining</a>
+                      <a href="{% url 'auctions:listing' listing.id %}"><i class="fa fa-clock-o"></i>{{ listing.end_date|timeuntil }} remaining</a>
                     </li>
                   </ul>
                   <p class="card-text">{{ listing.description|truncatewords:15 }}</p>

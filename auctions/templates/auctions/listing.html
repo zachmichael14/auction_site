@@ -104,7 +104,8 @@
             {% if is_winner %}
               <div>You are the current winner! You may still increase your bid if you wish.</div>
             {% endif %}
-
+            
+              {{ bid_form }}
             <!-- BID FORM TO GO HERE -->
 
             {% endif %}
@@ -114,9 +115,9 @@
         <!-- User Widget -->
         <div class="widget user text-center">
           <h5 class="widget-header">Listed By:</h5>
-          <img class="rounded-circle img-fluid mb-5 px-5" src="{{ user.profile.image.url }}" alt="{{ user }} profile image">
+          <img class="rounded-circle img-fluid mb-5 px-5" src="{{ user.profile.image.url }}" alt="{{ listing.seller }} profile image">
           <h4><a href="#">{{ listing.seller }}</a></h4>
-          <p class="member-time">Member since {{ user.date_joined|date:"F d, Y" }}</p>
+          <p class="member-time">Member since {{ listing.seller.date_joined|date:"F d, Y" }}</p>
         </div>
         <!-- Watchlist Widget -->
         <div class="widget watchlist">         
