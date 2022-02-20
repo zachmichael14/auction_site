@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
+from django.views.generic.edit import CreateView
+
 from django.http import HttpResponseRedirect
 
 from .models import Category, Listing
@@ -20,40 +22,46 @@ def index(request):
     }
     return render(request, 'auctions/index.html', context)
 
-def listing(request, listing_id):
-    user = request.user
-    listing = get_object_or_404(Listing, pk=listing_id)
-    is_seller = listing.is_seller()
-    is_current_winner = False
 
-    if user.is_authenticated:
-        is_seller = listing.is_seller(user=user)
+class ListingCreateView(CreateView):
+    model = Listing
+    template_name = 'auctions/create.html'
+    fields = ['category', 'title', 'description', 'image', 'duration']
+
+# def listing(request, listing_id):
+#     user = request.user
+#     listing = get_object_or_404(Listing, pk=listing_id)
+#     is_seller = listing.is_seller()
+#     is_current_winner = False
+
+#     if user.is_authenticated:
+#         is_seller = listing.is_seller(user=user)
         
-        if user == listing.top_bid.bidder:
-            is_current_winner = True
+#         if user == listing.top_bid.bidder:
+#             is_current_winner = True
         
 
-    context = {
-        'listing': listing,
-        'is_seller': is_seller,
-        'is_current_winner': is_current_winner,
-        'bid_form': BidForm()
-    }
+#     context = {
+#         'listing': listing,
+#         'is_seller': is_seller,
+#         'is_current_winner': is_current_winner,
+#         'bid_form': BidForm()
+#     }
 
-    return render(request, 'auctions/listing.html', context)
+#     return render(request, 'auctions/listing.html', context)
 
-def bid(request, listing_id):
-    listing = Listing.objects.get(id=listing_id)
+# def bid(request, listing_id):
+#     listing = Listing.objects.get(id=listing_id)
 
-    if request.method == 'POST':
-        bid_form = BidForm(request.POST)
-        if bid_form.is_valid():
-            bid = bid_form.save(commit=False)
-            bid.listing = listing
-            bid.bidder = request.user
-            bid.save()
+#     if request.method == 'POST':
+#         bid_form = BidForm(request.POST)
+#         if bid_form.is_valid():
+#             bid = bid_form.save(commit=False)
+#             bid.listing = listing
+#             bid.bidder = request.user
+#             bid.save()
 
-            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
+#             return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
             
-        else:
-            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
+#         else:
+#             return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
