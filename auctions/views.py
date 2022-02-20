@@ -1,7 +1,8 @@
+from re import template
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from django.http import HttpResponseRedirect
@@ -35,30 +36,37 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
         end_date = datetime.datetime.now() + duration
 
         form.instance.seller = self.request.user
-        form.instance.end_date = end_date
-
-        
+        form.instance.end_date = end_date        
         return super().form_valid(form)
 
 
-def listing(request, listing_id):
-    user = request.user
-    listing = get_object_or_404(Listing, pk=listing_id)
-    # is_seller = listing.is_seller()
-    # is_current_winner = False
+class ListingDetailView(DetailView):
+    model = Listing
+    template_name = 'auctions/listing.html'
+    context_object_name = 'listing'
+    pk_url_kwarg = 'listing_id'	
 
-    # if user.is_authenticated:
-    #     is_seller = listing.is_seller(user=user)
+
+
+
+# def listing(request, listing_id):
+#     user = request.user
+#     listing = get_object_or_404(Listing, pk=listing_id)
+#     # is_seller = listing.is_seller()
+#     # is_current_winner = False
+
+#     # if user.is_authenticated:
+#     #     is_seller = listing.is_seller(user=user)
         
-    #     if user == listing.top_bid.bidder:
-    #         is_current_winner = True
+#     #     if user == listing.top_bid.bidder:
+#     #         is_current_winner = True
         
 
-    context = {
-        'listing': listing,
-        # 'is_seller': is_seller,
+#     context = {
+#         'listing': listing,
+#         # 'is_seller': is_seller,
         # 'is_current_winner': is_current_winner,
         # 'bid_form': BidForm()
-    }
+    # }
 
-    return render(request, 'auctions/listing.html', context)
+    # return render(request, 'auctions/listing.html', context)
