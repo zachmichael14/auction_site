@@ -7,9 +7,9 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
 import datetime
 
-from .models import Category, Listing, Bid
+from .models import Category, Listing
 
-from .forms import BidForm
+from .forms import ListingForm
 
 def index(request):
     new_arrivals = Listing.objects.new_arrivals()
@@ -27,8 +27,8 @@ def index(request):
 
 class ListingCreateView(LoginRequiredMixin, CreateView):
     model = Listing
+    form_class = ListingForm
     template_name = 'auctions/create.html'
-    fields = ['category', 'title', 'description', 'image', 'duration', 'starting_bid']
 
     def form_valid(self, form):
         duration = datetime.timedelta(days=form.instance.duration) 
