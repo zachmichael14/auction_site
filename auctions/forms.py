@@ -65,4 +65,12 @@ class ListingForm(forms.ModelForm):
             }
         )
     )
+    starting_bid = forms.DecimalField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'border-0 py-2 w-100 price',
+                'placeholder': 'Starting bid'
+            }
+        )
+    )
  
