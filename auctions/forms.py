@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Bid
+from .models import Bid, Listing
 
 class BidForm(forms.ModelForm):
     class Meta:
@@ -17,10 +17,3 @@ class BidForm(forms.ModelForm):
             }
         )
     )       
-
-    def clean_amount(self):
-        amount = self.cleaned_data('amount')
-        top_bid = self.listing.top_bid
-        if amount < top_bid:
-            raise forms.ValidationError('Your bid must be greater than the current top bid.')
-        return amount

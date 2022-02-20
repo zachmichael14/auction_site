@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
+from django.http import HttpResponseRedirect
 
 from .models import Category, Listing
 from .forms import BidForm
@@ -40,7 +42,9 @@ def listing(request, listing_id):
 
     return render(request, 'auctions/listing.html', context)
 
-def bid(request):
+def bid(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+
     if request.method == 'POST':
         bid_form = BidForm(request.POST)
         if bid_form.is_valid():
@@ -48,4 +52,8 @@ def bid(request):
             bid.listing = listing
             bid.bidder = request.user
             bid.save()
+
+            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
             
+        else:
+            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))

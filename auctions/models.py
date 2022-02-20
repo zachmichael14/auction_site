@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.deletion import CASCADE, PROTECT
@@ -35,7 +36,6 @@ class Listing(models.Model):
     def __str__(self):
         return f'{self.title} (ID: {self.id}) by {self.seller}'
 
-
     @property
     def top_bid(self):
         # Return current highest bid for listing
@@ -63,6 +63,12 @@ class Bid(models.Model):
 
     def __str__(self):
         return str(self.amount)
+
+    def clean_amount(self):
+        amount = self.cleaned_data['amount']
+        top_bid = self.listing.top_bid
+        if amount < top_bid:
+            raise ValidationError('Your bid must be greater than the current top bid.')
 
 
 class Watchlist(models.Model):
