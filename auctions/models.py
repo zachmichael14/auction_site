@@ -6,6 +6,8 @@ from django.db.models.deletion import CASCADE, PROTECT
 
 from .managers import CategoryManager, ListingManager
 
+from .validators import validate_bid
+
 
 class Category(models.Model):
     category = models.CharField(max_length=64, unique=True)
@@ -55,10 +57,7 @@ class Bid(models.Model):
     amount = models.DecimalField(
         max_digits=5, 
         decimal_places=2, 
-        validators=[
-            MinValueValidator(0.01, message='Bid must be between $0.01 and $500.00 (inclusive).'),
-            MaxValueValidator(500.00, message='Bid must be between $0.01 and $500.00 (inclusive).')
-        ]
+        validators=[validate_bid]
     )
 
     def __str__(self):
