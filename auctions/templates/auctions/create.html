@@ -9,26 +9,42 @@
     <form method="post">
       {% csrf_token %}
       <fieldset class="border border-gray p-4 mb-4">
-        <!-- <div class="row">
+        <div class="row">
           <div class="col-lg-12">
             <h3 class="font-weight-bold">Create Your Listing</h3>
           </div>
           <div class="col-lg-6">
             <h6 class="font-weight-bold pt-4 pb-1">Listing Title:</h6>
-            
+            {{ form.title }}
+            <h6 class="font-weight-bold pt-4 pb-1">Item Description:</h6>
+            {{ form.description }}
           </div>
-        </div> -->
-        {{ form|crispy }}
+          <div class="col-lg-6">
+            <h6 class="font-weight-bold pt-4 pb-1">Item Category:</h6>
+            {{ form.category}}
+            <div class="price">
+              <div class="row">
+                <h6 class="font-weight-bold pt-4 pb-1 pl-2">Starting Bid (USD):</h6>
+                <div class="pt-3 pl-2">{{ form.starting_bid }}</div>
+              </div>
+              <div class="row">
+                <h6 class="font-weight-bold pt-4 pb-1 pl-2">Auction Duration:</h6>
+                <div class="pt-3 pl-2">{{ form.duration }}</div>
+              </div>
+            </div>
+            <h6 class="font-weight-bold pt-4 pb-1">Product Image</h6>
+
+            <div class="choose-file text-center my-y py-4 rounded">
+              <label for="file-upload">
+                <span class="d-block btn bg-primary text-white my-3 select-files">Select files</span>
+                <span class="d-block">Maximum upload file size: 500 KB</span>
+                <input type="file" class="form-control-file d-none" id="file-upload" name="image">
+            </label>
+          </div>
+        </div>
       </fieldset>
+      <button type="submit" class="btn btn-primary d-block mt-2">List Your Item
     </form>
-
   </div>
-
 </section>
-
-  <form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-]    <button type="submit" value="Save">Create</button>
-  </form>
 {% endblock body %}
