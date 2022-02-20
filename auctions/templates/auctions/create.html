@@ -3,5 +3,9 @@
 {% block title %} Create Listing {% endblock title %}
     
 {% block body %}
+  <form method="post">
+    {% csrf_token %}
     {{ form|crispy }}
+    <button type="submit" value="Save">Create</button>
+  </form>
 {% endblock body %}

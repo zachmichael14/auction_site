@@ -6,7 +6,7 @@ from .models import Bid
 class BidForm(forms.ModelForm):
     class Meta:
         model = Bid
-        exclude = ["listing", "bidder", "timestamp"]
+        fields = ['amount']
 
     amount = forms.CharField(
         label="",

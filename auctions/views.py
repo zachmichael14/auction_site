@@ -1,9 +1,11 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic.edit import CreateView
 
 from django.http import HttpResponseRedirect
+import datetime
 
 from .models import Category, Listing
 from .forms import BidForm
@@ -23,10 +25,20 @@ def index(request):
     return render(request, 'auctions/index.html', context)
 
 
-class ListingCreateView(CreateView):
+class ListingCreateView(LoginRequiredMixin, CreateView):
     model = Listing
     template_name = 'auctions/create.html'
     fields = ['category', 'title', 'description', 'image', 'duration']
+
+    def form_valid(self, form):
+        duration = datetime.timedelta(days=form.instance.duration) 
+        end_date = datetime.datetime.now() + duration
+
+        form.instance.seller = self.request.user
+        form.instance.end_date = end_date
+        
+        return super().form_valid(form)
+
 
 # def listing(request, listing_id):
 #     user = request.user
