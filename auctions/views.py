@@ -7,9 +7,9 @@ from django.views.generic.edit import CreateView
 from django.http import HttpResponseRedirect
 import datetime
 
-from .models import Category, Listing
-from .forms import BidForm
+from .models import Category, Listing, Bid
 
+from .forms import BidForm
 
 def index(request):
     new_arrivals = Listing.objects.new_arrivals()
@@ -28,7 +28,7 @@ def index(request):
 class ListingCreateView(LoginRequiredMixin, CreateView):
     model = Listing
     template_name = 'auctions/create.html'
-    fields = ['category', 'title', 'description', 'image', 'duration']
+    fields = ['category', 'title', 'description', 'image', 'duration', 'starting_bid']
 
     def form_valid(self, form):
         duration = datetime.timedelta(days=form.instance.duration) 
@@ -36,44 +36,29 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
 
         form.instance.seller = self.request.user
         form.instance.end_date = end_date
+
         
         return super().form_valid(form)
 
 
-# def listing(request, listing_id):
-#     user = request.user
-#     listing = get_object_or_404(Listing, pk=listing_id)
-#     is_seller = listing.is_seller()
-#     is_current_winner = False
+def listing(request, listing_id):
+    user = request.user
+    listing = get_object_or_404(Listing, pk=listing_id)
+    # is_seller = listing.is_seller()
+    # is_current_winner = False
 
-#     if user.is_authenticated:
-#         is_seller = listing.is_seller(user=user)
+    # if user.is_authenticated:
+    #     is_seller = listing.is_seller(user=user)
         
-#         if user == listing.top_bid.bidder:
-#             is_current_winner = True
+    #     if user == listing.top_bid.bidder:
+    #         is_current_winner = True
         
 
-#     context = {
-#         'listing': listing,
-#         'is_seller': is_seller,
-#         'is_current_winner': is_current_winner,
-#         'bid_form': BidForm()
-#     }
+    context = {
+        'listing': listing,
+        # 'is_seller': is_seller,
+        # 'is_current_winner': is_current_winner,
+        # 'bid_form': BidForm()
+    }
 
-#     return render(request, 'auctions/listing.html', context)
-
-# def bid(request, listing_id):
-#     listing = Listing.objects.get(id=listing_id)
-
-#     if request.method == 'POST':
-#         bid_form = BidForm(request.POST)
-#         if bid_form.is_valid():
-#             bid = bid_form.save(commit=False)
-#             bid.listing = listing
-#             bid.bidder = request.user
-#             bid.save()
-
-#             return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
-            
-#         else:
-#             return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
+    return render(request, 'auctions/listing.html', context)

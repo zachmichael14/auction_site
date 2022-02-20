@@ -17,4 +17,4 @@ class BidForm(forms.ModelForm):
                 "placeholder": "Bid ($0.01-$500.00)"
             }
         )
-    )       
+    )    

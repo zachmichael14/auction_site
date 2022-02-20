@@ -6,6 +6,7 @@
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
+    {{ bid_form|crispy }}
     <button type="submit" value="Save">Create</button>
   </form>
 {% endblock body %}

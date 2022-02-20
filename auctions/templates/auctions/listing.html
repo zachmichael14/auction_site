@@ -103,7 +103,6 @@
             {% if is_current_winner %}
               <div>You are the current winner! You may still increase your bid if you wish.</div>
             {% endif %}
-            <form action="{% url 'auctions:bid' listing.id %}" method="POST">
               {% csrf_token %}
               {{ bid_form }}
               <input class="bid-button" type="submit" value="Bid">
