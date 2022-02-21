@@ -4,6 +4,17 @@
     
 
 {% block body %}
+
+{% if form.errors %}
+{% for field in form %}
+  {% for error in field.errors %} 
+       <div class="alert alert-danger">
+      {{ error|escape }}
+       </div>
+  {% endfor %}
+{% endfor %}
+{% endif %}
+
 <section class="ad-post bg-gray py-5">
   <div class="container">
     <form method="post">
@@ -30,7 +41,9 @@
               <div class="row">
                 <h6 class="font-weight-bold pt-4 pb-1 pl-2">Auction Duration:</h6>
                 <div class="pt-3 pl-2">{{ form.duration }}</div>
+                <div class="aler alert-danger">{{ form.duration.errors}}</div>
               </div>
+              {{ form.duration.errors }}
             </div>
             <h6 class="font-weight-bold pt-4 pb-1">Product Image</h6>
 

@@ -32,11 +32,14 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
+        # Calculate end date from duration
         duration = datetime.timedelta(days=form.instance.duration) 
         end_date = datetime.datetime.now() + duration
 
+        # Set model fields omitted from listing form
         form.instance.seller = self.request.user
-        form.instance.end_date = end_date        
+        form.instance.end_date = end_date
+       
         return super().form_valid(form)
 
 
@@ -45,28 +48,3 @@ class ListingDetailView(DetailView):
     template_name = 'auctions/listing.html'
     context_object_name = 'listing'
     pk_url_kwarg = 'listing_id'	
-
-
-
-
-# def listing(request, listing_id):
-#     user = request.user
-#     listing = get_object_or_404(Listing, pk=listing_id)
-#     # is_seller = listing.is_seller()
-#     # is_current_winner = False
-
-#     # if user.is_authenticated:
-#     #     is_seller = listing.is_seller(user=user)
-        
-#     #     if user == listing.top_bid.bidder:
-#     #         is_current_winner = True
-        
-
-#     context = {
-#         'listing': listing,
-#         # 'is_seller': is_seller,
-        # 'is_current_winner': is_current_winner,
-        # 'bid_form': BidForm()
-    # }
-
-    # return render(request, 'auctions/listing.html', context)
