@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
+from django.views.generic import ListView
 
 from django.http import HttpResponseRedirect
 import datetime
@@ -48,3 +49,9 @@ class ListingDetailView(DetailView):
     template_name = 'auctions/listing.html'
     context_object_name = 'listing'
     pk_url_kwarg = 'listing_id'	
+
+
+class BrowseListingView(ListView):
+    model = Listing
+    template_name = 'auctions/browse.html'
+    context_object_name = 'listings'

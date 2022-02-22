@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Browse Listings {% endblock title %}
+
+
+{% block body %}
+    
+    {% for listing in listings  %}
+        {{ listing.title }}
+    {% endfor %}
+        
+{% endblock body %}
+    

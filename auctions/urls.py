@@ -5,6 +5,6 @@ app_name = 'auctions'
 urlpatterns = [
     path('', auction_views.index, name='index'),
     path('listing/<int:listing_id>/', auction_views.ListingDetailView.as_view(), name='listing'),
-    # path('listing/<int:listing_id>/bid/', auction_views.bid, name='bid'),
+    path('browse/', auction_views.BrowseListingView.as_view(), name='browse'),
     path('listing/create/', auction_views.ListingCreateView.as_view(), name='create')
 ]
