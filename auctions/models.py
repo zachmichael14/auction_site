@@ -10,11 +10,11 @@ from .validators import validate_bid
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True)
     objects = CategoryManager()
 
     def __str__(self):
-        return self.category
+        return self.name
 
 
 class Listing(models.Model):
@@ -48,7 +48,7 @@ class Listing(models.Model):
         # Check for bids on listing
         if Bid.objects.filter(listing=self.id).exists():
             # If bids, return highest
-            return Bid.objects.filter(listing=self.id).order_by("-amount").first()
+            return Bid.objects.filter(listing=self.id).order_by('-amount').first()
         return self.starting_bid
 
     def is_seller(self, user=None):

@@ -1,14 +1,76 @@
 {% extends "auctions/layout.html" %}
-{% load crispy_forms_tags %}
 
 {% block title %} Browse Listings {% endblock title %}
 
-
 {% block body %}
-    
-    {% for listing in listings  %}
-        {{ listing.title }}
-    {% endfor %}
+<section class="page-search">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Search -->
+        <div class="advanced-search">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-12 col-md-12 align-content-center">
+                <!-- Search Form -->
+                <form action="{% url 'auctions:browse' %}" method="get">
+                  <div class="form-row">
+                    <div class="form-group col-md-7">
+                      {{ search_form.q_string }}
+                    </div>
+                    <div class="form-group col-md-3">
+                      {{ search_form.q_cat }}
+                    </div>
+                    <div class="form-group col-md-2 align-self-center">
+                      <button type="submit" class="btn btn-transparent-white">Search</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="search-result bg-gray">
+          {% if q_string %}
+            {% if q_cat %} <!-- Query string and query category -->
+              <h2>Listings for "{{ q_string }}" in {{ q_cat }} </h2>
+
+          {% else %} <!-- Query string only -->
+            <h2>Listings for "{{ q_string }}"</h2>
+          {% endif %}
+
+          
+        {% else %}
+          {% if q_cat %} <!-- Query category only -->
+            <h2>Listings in {{ q_cat }}</h2>
+          {% else %} <!-- No query -->
+            <h2>All listings</h2>
+          {% endif %}
+        {% endif %}
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  {% for listing in listings  %}
+    {{ listing.title }}
+  {% endfor %}
+        
+  
+  {% for category in categories %}
+    {{ category }}
+    {{ category.count }}
+  {% endfor %}
         
 {% endblock body %}
     

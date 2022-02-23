@@ -11,7 +11,7 @@ import datetime
 
 from .models import Category, Listing
 
-from .forms import ListingForm
+from .forms import ListingForm, SearchForm
 
 def index(request):
     new_arrivals = Listing.objects.new_arrivals()
@@ -55,3 +55,31 @@ class BrowseListingView(ListView):
     model = Listing
     template_name = 'auctions/browse.html'
     context_object_name = 'listings'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        
+        q_string = self.request.GET.get('q_string', None)
+        q_cat = self.request.GET.get('q_cat', None)
+
+        user = None
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        
+        context['categories'] = Category.objects.with_counts(user)
+        context['search_form'] = SearchForm()
+        context['q_string'] = q_string
+        context['q_cat'] = q_cat
+        return context
+
+    def get_queryset(self):
+        q_string = self.request.GET.get('q_string', None)
+        q_cat = self.request.GET.get('q_cat', None)
+
+        queryset = super().get_queryset().exclude(is_active=False)
+        if q_string:
+            queryset = queryset.filter(title__icontains=q_string)
+        if q_cat:
+            queryset = queryset.filter(category__name__contains=q_cat)
+        return queryset

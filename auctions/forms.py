@@ -9,12 +9,12 @@ class BidForm(forms.ModelForm):
         fields = ['amount']
 
     amount = forms.CharField(
-        label="",
+        label='',
         widget = forms.NumberInput(
             attrs = {
-                "class": "border-0 py-2 w-100 price",
-                "name": "bid_form-amount",
-                "placeholder": "Bid ($0.01-$500.00)"
+                'class': 'border-0 py-2 w-100 price',
+                'name': 'bid_form-amount',
+                'placeholder': 'Bid ($0.01-$500.00)'
             }
         )
     )   
@@ -29,9 +29,9 @@ class ListingForm(forms.ModelForm):
         max_length=64,
         widget = forms.TextInput(
             attrs = {
-                "class": "border w-100 p-2 bg-white",
-                "name": "listing_form-title",
-                "placeholder": "Title"
+                'class': 'border w-100 p-2 bg-white',
+                'name': 'listing_form-title',
+                'placeholder': 'Title'
             }
         )
     )
@@ -39,29 +39,29 @@ class ListingForm(forms.ModelForm):
         max_length=500,
         widget = forms.Textarea(
             attrs = {
-                "class": "border p-3 w-100",
-                "name": "listing_form-description",
-                "placeholder": "Write details about your product",
+                'class': 'border p-3 w-100',
+                'name': 'listing_form-description',
+                'placeholder': 'Write details about your product',
             }
         )
     )
     category= forms.ModelChoiceField(
-        empty_label="Select a category",
-        queryset=Category.objects.all().order_by('category'),
+        empty_label='Select a category',
+        queryset=Category.objects.all().order_by('name'),
         widget = forms.Select(
             attrs = {
-                "id": "inputGroupSelect",
-                "class": "w-100",
-                "name": "listing_form-category",
-                "placeholder": "Category"
+                'id': 'inputGroupSelect',
+                'class': 'w-100',
+                'name': 'listing_form-category',
+                'placeholder': 'Category'
             }
         )
     )
     duration = forms.IntegerField(
         widget=forms.NumberInput(
             attrs={
-                "class": "border-0 py-2 w-100 price",
-                "placeholder": "Duration (3-31 days)",
+                'class': 'border-0 py-2 w-100 price',
+                'placeholder': 'Duration (3-31 days)',
             }
         )
     )
@@ -74,3 +74,28 @@ class ListingForm(forms.ModelForm):
         )
     )
  
+class SearchForm(forms.Form):
+    q_string = forms.CharField(
+        label='',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'inputtext4',
+                'class': 'form-control my-2 my-lg-1',
+                'placeholder': 'What can we help you find?'
+            }
+        )
+    )
+
+    q_cat = forms.ModelChoiceField(
+        label='',
+        required=False,
+        empty_label='Select a category',
+        to_field_name='name',
+        queryset=Category.objects.all().order_by('name'),
+        widget = forms.Select(
+            attrs = {
+                'class': 'w-100 form-control mt-lg-1 mt-md-2',
+            }
+        )
+    )
