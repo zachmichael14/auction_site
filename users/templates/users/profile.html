@@ -16,6 +16,50 @@
             <h5 class="text-center">{{ user }}</h5>
             <p>Joined {{ user.date_joined|date:"F d, Y"}}</p>
           </div>
+          <div class="widget user-dashboard-menu">
+            <ul class="nav nav-pills justify-content-center flex-column" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-active-tab" data-toggle="pill" href="#pills-active" role="tab" aria-controls="pills-active" aria-selected="True">
+                  <i class="fa fa-check"></i>
+                  Active Listings 
+                  <span>{{ active_listings|length }}</span>
+                </a>
+              </li>
+							<li class="nav-item">
+								<a class="nav-link" id="pills-watchlist-tab" data-toggle="pill" href="#pills-watchlist" role="tab" aria-controls="pills-watchlist" aria-selected="false">
+                  <i class="fa fa-bookmark"></i>
+                  Watchlist 
+                  <span>{{ watchlist|length }}</span>
+                </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="pills-archived-tab" data-toggle="pill" href="#pills-archived" role="tab" aria-controls="pills-archived" aria-selected="false">
+                  <i class="fa fa-history"></i>
+                  Archived Listings
+                  <span>{{ archived_listings|length }}</span>
+                </a>
+							</li>
+              <li class="nav-item">
+								<a class="nav-link" id="pills-won-tab" data-toggle="pill" href="#pills-won" role="tab" aria-controls="pills-won" aria-selected="false">
+                  <i class="fa fa-trophy"></i>
+                  Won Listings
+                  <span>{{ user.won.all|length }}</span>
+                </a>
+							</li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <i class="fa fa-edit"></i>
+                  Edit Account
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:logout' %}">
+                  <i class="fa fa-sign-out"></i>
+                  Logout
+                </a>
+							</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
