@@ -23,6 +23,7 @@ def index(request):
     context = {
         'popular': Category.objects.popular(),
         'new_arrivals': new_arrivals,
+        'search_form': SearchForm()
     }
     return render(request, 'auctions/index.html', context)
 
@@ -78,6 +79,10 @@ class BrowseListingView(ListView):
         q_cat = self.request.GET.get('q_cat', None)
 
         queryset = super().get_queryset().exclude(is_active=False)
+
+        if self.request.user.is_authenticated:
+            # Exclude user's listings
+            queryset = queryset.exclude(seller=self.request.user)
         if q_string:
             # Match q_string to listing titles
             queryset = queryset.filter(title__icontains=q_string)

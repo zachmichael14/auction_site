@@ -2771,9 +2771,6 @@ form textarea {
   transition: all linear 0.3s;
   color: #000;
   background-color: transparent;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 400;
   border: 0;
 }
 .cat-list-span{
@@ -2784,5 +2781,18 @@ form textarea {
   margin-top: 8px;  
   padding: 3px 8px;
   color: #84919B;
+}
+.cat-container{
+  color: white;
+  padding: 2px 5px;
+  border: 1px solid gray;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.cat-icon{
+  color: white;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 /*# sourceMappingURL=maps/style.css.map */
