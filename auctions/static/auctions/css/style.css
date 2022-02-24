@@ -2774,10 +2774,6 @@ form textarea {
   font-weight: 400;
   border: 0;
 }
-.cat-list:hover{
-  color: #025fd3;
-  border: 1px solid black;
-}
 .cat-list-span{
   float: right;
   font-size: 10px;
