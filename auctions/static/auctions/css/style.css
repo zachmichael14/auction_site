@@ -1709,13 +1709,15 @@ ul.pagination .active a {
   color: #84919B;
 }
 
-.widget.category-list ul li a:hover {
+.widget.category-list ul li .cat-list:hover {
   color: #5672f9;
+  cursor: pointer;
 }
 
-.widget.category-list ul li a:hover span {
+.widget.category-list ul li:hover span {
   background: #5672f9;
   color: #fff;
+  cursor: pointer;
 }
 
 .widget.filter .nice-select {
@@ -2763,5 +2765,34 @@ form textarea {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+}
+.cat-list{
+  padding: 8px 0;
+  transition: all linear 0.3s;
+  color: #000;
+  background-color: transparent;
+  border: 0;
+}
+.cat-list-span{
+  float: right;
+  font-size: 10px;
+  background: #F4F7F9;
+  border-radius: 10px;
+  margin-top: 8px;  
+  padding: 3px 8px;
+  color: #84919B;
+}
+.cat-container{
+  color: white;
+  padding: 2px 5px;
+  border: 1px solid gray;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.cat-icon{
+  color: white;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 /*# sourceMappingURL=maps/style.css.map */
