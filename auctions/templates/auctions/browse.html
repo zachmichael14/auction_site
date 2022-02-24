@@ -1,8 +1,9 @@
 {% extends "auctions/layout.html" %}
 
 {% block title %} Browse Listings {% endblock title %}
-
 {% block body %}
+{{ k }}
+
 <section class="page-search">
   <div class="container">
     <div class="row">
@@ -63,14 +64,20 @@
         <div class="widget category-list">
           <h4 class="widget-header">Categories</h4>
           <ul class="category-list">
+            <form action="{% url 'auctions:browse' %}" method="get">
+
             <li>
-              <a href="{% url 'auctions:browse' %}">All Listings <span>{{ total }}</span></a>
+              <input class="cat" type="submit" value="All Listings">
+              <!-- <a href="{% url 'auctions:browse' %}">All Listings <span>{{ total }}</span></a> -->
             </li>
           {% for category in categories %}
             <li>
-              <a href="{% url 'auctions:browse' %}">{{ category }} <span>{{ category.count }}</span></a>
+              <input class="cat" type="submit" value="{{ category }}" name="q_cat">
+              <span>{{ category.count }}</span>
+              <!-- <a href="{% url 'auctions:browse' category %}">{{ category }} <span>{{ category.count }}</span></a> -->
             </li>
           {% endfor %}
+          </form>
           </ul>
         </div>
       </div>
@@ -127,3 +134,4 @@
     <!-- End Category Widget -->
   </div>
 </section>
+{% endblock body %}
