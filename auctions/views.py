@@ -79,7 +79,9 @@ class BrowseListingView(ListView):
 
         queryset = super().get_queryset().exclude(is_active=False)
         if q_string:
+            # Match q_string to listing titles
             queryset = queryset.filter(title__icontains=q_string)
         if q_cat:
+            # Match q_cat string to unique category name
             queryset = queryset.filter(category__name__contains=q_cat)
         return queryset
