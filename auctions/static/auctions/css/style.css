@@ -2764,8 +2764,23 @@ form textarea {
   border-radius: 3px;
   margin-bottom: 20px;
 }
-.cat{
+.category-list{
+  padding: 8px 0;
+  display: block;
+  transition: all linear 0.3s;
+  color: #000;
+  background-color: transparent;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 400;
   border: 0;
-  background: white;
+}
+.cat-list-span{
+  float: right;
+  font-size: 10px;
+  background: #F4F7F9;
+  border-radius: 10px;
+  padding: 3px 8px;
+  color: #84919B;
 }
 /*# sourceMappingURL=maps/style.css.map */
