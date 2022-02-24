@@ -1,5 +1,6 @@
 from re import template
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
@@ -36,3 +37,4 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+        

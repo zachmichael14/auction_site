@@ -1,11 +1,17 @@
+from re import template
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from django.views.generic import ListView
 
 from django.http import HttpResponseRedirect
+import datetime
 
 from .models import Category, Listing
-from .forms import BidForm
 
+from .forms import ListingForm, SearchForm
 
 def index(request):
     new_arrivals = Listing.objects.new_arrivals()
@@ -17,43 +23,70 @@ def index(request):
     context = {
         'popular': Category.objects.popular(),
         'new_arrivals': new_arrivals,
+        'search_form': SearchForm()
     }
     return render(request, 'auctions/index.html', context)
 
-def listing(request, listing_id):
-    user = request.user
-    listing = get_object_or_404(Listing, pk=listing_id)
-    is_seller = listing.is_seller()
-    is_current_winner = False
 
-    if user.is_authenticated:
-        is_seller = listing.is_seller(user=user)
+class ListingCreateView(LoginRequiredMixin, CreateView):
+    model = Listing
+    form_class = ListingForm
+    template_name = 'auctions/create.html'
+
+    def form_valid(self, form):
+        # Calculate end date from duration
+        duration = datetime.timedelta(days=form.instance.duration) 
+        end_date = datetime.datetime.now() + duration
+
+        # Set model fields omitted from listing form
+        form.instance.seller = self.request.user
+        form.instance.end_date = end_date
+       
+        return super().form_valid(form)
+
+
+class ListingDetailView(DetailView):
+    model = Listing
+    template_name = 'auctions/listing.html'
+    context_object_name = 'listing'
+    pk_url_kwarg = 'listing_id'	
+
+
+class BrowseListingView(ListView):
+    model = Listing
+    template_name = 'auctions/browse.html'
+    context_object_name = 'listings'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
         
-        if user == listing.top_bid.bidder:
-            is_current_winner = True
+        q_string = self.request.GET.get('q_string', None)
+        q_cat = self.request.GET.get('q_cat', None)
+
+        user = None
+        if self.request.user.is_authenticated:
+            user = self.request.user
         
+        context['categories'] = Category.objects.with_counts(user)
+        context['search_form'] = SearchForm()
+        context['q_string'] = q_string
+        context['q_cat'] = q_cat
+        return context
 
-    context = {
-        'listing': listing,
-        'is_seller': is_seller,
-        'is_current_winner': is_current_winner,
-        'bid_form': BidForm()
-    }
+    def get_queryset(self):
+        q_string = self.request.GET.get('q_string', None)
+        q_cat = self.request.GET.get('q_cat', None)
 
-    return render(request, 'auctions/listing.html', context)
+        queryset = super().get_queryset().exclude(is_active=False)
 
-def bid(request, listing_id):
-    listing = Listing.objects.get(id=listing_id)
-
-    if request.method == 'POST':
-        bid_form = BidForm(request.POST)
-        if bid_form.is_valid():
-            bid = bid_form.save(commit=False)
-            bid.listing = listing
-            bid.bidder = request.user
-            bid.save()
-
-            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
-            
-        else:
-            return HttpResponseRedirect(reverse("auctions:listing", args=(listing_id,)))
+        if self.request.user.is_authenticated:
+            # Exclude user's listings
+            queryset = queryset.exclude(seller=self.request.user)
+        if q_string:
+            # Match q_string to listing titles
+            queryset = queryset.filter(title__icontains=q_string)
+        if q_cat:
+            # Match q_cat string to unique category name
+            queryset = queryset.filter(category__name__contains=q_cat)
+        return queryset

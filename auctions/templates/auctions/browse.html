@@ -1,0 +1,134 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %} Browse Listings {% endblock title %}
+{% block body %}
+{{ k }}
+
+<section class="page-search">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Search -->
+        <div class="advanced-search">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-12 col-md-12 align-content-center">
+                <!-- Search Form -->
+                <form action="{% url 'auctions:browse' %}" method="get">
+                  <div class="form-row">
+                    <div class="form-group col-md-7">
+                      {{ search_form.q_string }}
+                    </div>
+                    <div class="form-group col-md-3">
+                      {{ search_form.q_cat }}
+                    </div>
+                    <div class="form-group col-md-2 align-self-center">
+                      <button type="submit" class="btn btn-transparent-white">Search</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="search-result bg-gray">
+          {% if q_string %}
+            {% if q_cat %} <!-- Query string and query category -->
+              <h2>Listings for "{{ q_string }}" in {{ q_cat }} </h2>
+            {% else %} <!-- Query string only -->
+              <h2>Listings for "{{ q_string }}"</h2>
+            {% endif %}
+
+          {% else %}
+            {% if q_cat %} <!-- Query category only -->
+              <h2>Listings in {{ q_cat }}</h2>
+            {% else %} <!-- No query -->
+              <h2>All listings</h2>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <!-- Category Widget -->
+    <div class="row">
+      <div class="col-lg-3 col-md-4">
+        <div class="widget category-list">
+          <h4 class="widget-header">Categories</h4>
+          <ul class="category-list">
+            <form action="{% url 'auctions:browse' %}" method="get">
+            <li>
+              <input class="cat-list" type="submit" value="All Listings">
+            </li>
+          {% for category in categories %}
+            <li>
+              <input class="cat-list list-inline-item" type="submit" value="{{ category }}" name="q_cat">
+              <span class="cat-list-span">{{ category.count }}</span>            
+            </li>
+          {% endfor %}
+          </form>
+          </ul>
+        </div>
+      </div>
+      <!-- Results Header -->
+      <div class="col-lg-9 col-md-8">
+        <div class="category-search-filter">
+          <div class="row">
+            <div class="col-md-6">
+            {% if listings %}
+              <strong>{{ listings|length }} result(s)</strong>
+            {% else %}
+              <strong>0 results</strong>
+            {% endif %} 
+            </div>
+          </div>
+        </div>
+        <!-- Listings -->
+        <div class="ad-listing-list mt-20">
+        {% for listing in listings %}
+          <div class="row p-lg-3 p-sm-5 p-4">
+            <div class="col-lg-4 align-self-center">
+              <a href="{% url 'auctions:listing' listing.id %}">
+                <img src="#" class="img-fluid" alt="Image of {{ listing.title }}">
+              </a>
+            </div>
+            <div class="col-lg-8">
+              <div class="ad-listing-content">
+                <a href="{% url 'auctions:listing' listing.id %}" class="font-weight-bold">{{ listing.title }}</a>
+                <ul class="list-inline mt-2 mb-3">
+                  <li class="list-inline-item">
+                    <a href="{% url 'auctions:listing' listing.id %}">
+                      <i id="icon-1" class="fa fa-folder-open-o"></i>{{ listing.category }}
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="{% url 'auctions:listing' listing.id %}">
+                      <i id="icon-1" class="fa fa-calendar"></i>{{ listing.creation_timestamp|date:"F d, Y" }}
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="{% url 'auctions:listing' listing.id %}">
+                      <i id="icon-1" class="fa fa-clock-o"></i>Open for {{ listing.end_date|timeuntil }}
+                    </a>
+                  </li>
+                </ul>
+                <p class="pr-5">{{ listing.description }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- End Category Widget -->
+  </div>
+</section>
+{% endblock body %}

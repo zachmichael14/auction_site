@@ -9,14 +9,14 @@ class BidTabularInline(admin.TabularInline):
 
 class ListingAdmin(admin.ModelAdmin):
     model = Listing
-    list_display = ["title", "creation_timestamp", "category"]
-    list_filter = ["creation_timestamp", "category"]
+    list_display = ['title', 'creation_timestamp', 'category']
+    list_filter = ['creation_timestamp', 'category']
     inlines = [BidTabularInline]
 
 
 class CategoryAdmin(admin.ModelAdmin):
     model = Category
-    list_display = ["id", "category"]
+    list_display = ['id', 'name']
 
 
 admin.site.register(Listing, ListingAdmin)
