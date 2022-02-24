@@ -65,16 +65,13 @@
           <h4 class="widget-header">Categories</h4>
           <ul class="category-list">
             <form action="{% url 'auctions:browse' %}" method="get">
-
             <li>
-              <input class="category-list" type="submit" value="All Listings">
-              <!-- <a href="{% url 'auctions:browse' %}">All Listings <span>{{ total }}</span></a> -->
+              <input class="cat-list" type="submit" value="All Listings">
             </li>
           {% for category in categories %}
             <li>
-              <input class="category-list" type="submit" value="{{ category }}" name="q_cat">
-              <span class="cat-list-span">{{ category.count }}</span>
-              <!-- <a href="{% url 'auctions:browse' category %}">{{ category }} <span>{{ category.count }}</span></a> -->
+              <input class="cat-list list-inline-item" type="submit" value="{{ category }}" name="q_cat">
+              <span class="cat-list-span">{{ category.count }}</span>            
             </li>
           {% endfor %}
           </form>

@@ -2764,9 +2764,8 @@ form textarea {
   border-radius: 3px;
   margin-bottom: 20px;
 }
-.category-list{
+.cat-list{
   padding: 8px 0;
-  display: block;
   transition: all linear 0.3s;
   color: #000;
   background-color: transparent;
@@ -2775,11 +2774,16 @@ form textarea {
   font-weight: 400;
   border: 0;
 }
+.cat-list:hover{
+  color: #025fd3;
+  border: 1px solid black;
+}
 .cat-list-span{
   float: right;
   font-size: 10px;
   background: #F4F7F9;
   border-radius: 10px;
+  margin-top: 8px;  
   padding: 3px 8px;
   color: #84919B;
 }
