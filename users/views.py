@@ -8,6 +8,7 @@ from django.contrib.auth.views import LogoutView
 
 from .forms import ProfileUpdateForm, UserRegistrationForm, UserUpdateForm
 from .models import User
+from auctions.models import Listing
 
 
 # Create your views here.
@@ -32,6 +33,7 @@ def profile(request):
     p_update_form = ProfileUpdateForm()  
 
     context = {
+        'active_listings': Listing.objects.exclude(is_active=False).filter(seller=request.user),
         'u_update_form': u_update_form,
         'p_update_form': p_update_form
     }

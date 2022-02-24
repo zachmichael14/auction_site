@@ -62,6 +62,64 @@
           </div>
         </div>
       </div>
+      <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+        <div class="widget dashboard-container my-adslist">
+          <div class="tab-content" id="pills-tabContent">
+            <!-- Active Listings-->
+            <div class="tab-pane active" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
+              <h3 class="tab-title">My Active Listings</h3>
+            {% if active_listings %}
+              <table class="table table-responsive product-dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Product Title</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for listing in active_listings %}
+                  <tr>
+                    <td class="product-thumb">
+                      <a href="{% url 'auctions:listing' listing.id %}">
+                        <img class="card-img-top" src="#" alt="{{ listing.title }} image">
+                      </a>
+                    </td>
+                    <td class="product-details">
+                      <h3 class="title"><a href="{% url 'auctions:listing' listing.id %}">{{ listing.title }}</a></h3>
+                      <span><strong>Posted on: </strong><time>{{ listing.creation_timestamp|date:'F d, Y' }}</time></span>
+                      <span><strong>Time Left: </strong>{{ listing.end_date|timeuntil }}</span>
+                      <span><strong>Current Bid: </strong>${{ listing.top_bid }}</span>
+                    </td>
+                    <td class="product-category">
+                      <span class="categories">{{ listing.category }}</span>
+                    </td>
+                    <td class="action" data-title="Action">
+                      <ul class="list-inline justify-content-center">
+                        <li class="list-inline-item">
+                          <a data-toggle="tooltip" data-placement="top" title="View" class="view" href="{% url 'auctions:listing' listing.id %}">
+                            <i class="fa fa-eye"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete Listing" href="#">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              Nothing to report.
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
