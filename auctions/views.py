@@ -1,3 +1,4 @@
+from pyexpat import model
 from re import template
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -5,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
-
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 import datetime
 
@@ -56,6 +57,8 @@ class BrowseListingView(ListView):
     model = Listing
     template_name = 'auctions/browse.html'
     context_object_name = 'listings'
+    paginate_by = 5
+    ordering = 'end_date'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -72,6 +75,7 @@ class BrowseListingView(ListView):
         context['search_form'] = SearchForm()
         context['q_string'] = q_string
         context['q_cat'] = q_cat
+        context['kwargs'] = self.request.GET.items()
         return context
 
     def get_queryset(self):

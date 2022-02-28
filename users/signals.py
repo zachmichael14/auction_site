@@ -5,10 +5,12 @@ from django.dispatch import receiver
 from .models import Profile
 
 
-
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    # Create profile instance when user registers for an account.
+    """Create Profile model object when User model object is created.
+
+    Read details of the post_save signal @ django.db.model.base.py
+    """
     if created:
         Profile.objects.create(user=instance)
 

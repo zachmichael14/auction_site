@@ -2,6 +2,13 @@
 
 {% block title %} Browse Listings {% endblock title %}
 {% block body %}
+
+{{ request.GET.urlencode }}
+
+{% for k in kwargs  %}
+  {{ k }}
+{% endfor %}
+  
 <section class="page-search">
   <div class="container">
     <div class="row">
@@ -56,8 +63,8 @@
         </div>
       </div>
     </div>
-    <!-- Category Widget -->
     <div class="row">
+      <!-- Category Widget -->
       <div class="col-lg-3 col-md-4">
         <div class="widget category-list">
           <h4 class="widget-header">Categories</h4>
@@ -67,22 +74,22 @@
               <input class="cat-list" type="submit" value="All Listings">
             </li>
           {% for category in categories %}
-            <li>
-              <input class="cat-list list-inline-item" type="submit" value="{{ category }}" name="q_cat">
-              <span class="cat-list-span">{{ category.count }}</span>            
-            </li>
+              <li class="div1">
+                <input class="cat-list list-inline-item" type="submit" value="{{ category }}" name="q_cat">
+                <span class="cat-list-span">{{ category.count }}</span>            
+              </li>      
           {% endfor %}
           </form>
           </ul>
         </div>
       </div>
-      <!-- Results Header -->
       <div class="col-lg-9 col-md-8">
+        <!-- Results Subheader -->
         <div class="category-search-filter">
           <div class="row">
             <div class="col-md-6">
             {% if listings %}
-              <strong>{{ listings|length }} result(s)</strong>
+              <strong>{{ page_obj.paginator.count }} result(s)</strong>
             {% else %}
               <strong>0 results</strong>
             {% endif %} 
@@ -124,9 +131,26 @@
           </div>
         {% endfor %}
         </div>
+        <!-- Pagination -->
+        <div class="pagination">
+          <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="../?page=1">&laquo; first</a>
+            <a href="../?page={{ page_obj.previous_page_number }}">prev | </a>
+          {% endif %}
+  
+            <span class="current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+  
+          {% if page_obj.has_next %}
+            <a href="../?page={{ page_obj.next_page_number }}"> | next</a>
+            <a href="../?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+          </span>
+        </div>
       </div>
     </div>
-    <!-- End Category Widget -->
   </div>
 </section>
 {% endblock body %}

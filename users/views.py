@@ -1,14 +1,9 @@
-from re import template
+from auctions.models import Listing
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
-from django.contrib.auth.views import LogoutView
 
 from .forms import ProfileUpdateForm, UserRegistrationForm, UserUpdateForm
-from .models import User
-from auctions.models import Listing
 
 
 # Create your views here.
@@ -25,6 +20,9 @@ def register(request):
     return render(request, 'users/register.html', {
         'register_form': register_form
     })
+
+
+
 
 @login_required
 def profile(request):
