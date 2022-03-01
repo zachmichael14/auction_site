@@ -64,8 +64,12 @@ class BrowseListingView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         
-        q_string = self.request.GET.get('q_string', None)
-        q_cat = self.request.GET.get('q_cat', None)
+        if self.kwargs:
+            # Get query parameter from view kwargs (URLconf captured group)
+            q_cat = self.kwargs.get('q_cat', None)
+        else:
+            # Get query parameter from GET request (search form)
+            q_cat = self.request.GET.get('q_cat', None)
 
         user = None
         if self.request.user.is_authenticated:
@@ -73,14 +77,20 @@ class BrowseListingView(ListView):
         
         context['categories'] = Category.objects.with_counts(user)
         context['search_form'] = SearchForm()
-        context['q_string'] = q_string
+        context['q_string'] = self.request.GET.get('q_string', None)
         context['q_cat'] = q_cat
         return context
 
     def get_queryset(self):
-        q_string = self.request.GET.get('q_string', None)
-        q_cat = self.request.GET.get('q_cat', None)
-
+        if self.kwargs:
+            # Get query parameters from view kwargs (URLconf captured group)
+            q_cat = self.kwargs.get('q_cat', None)
+            q_string = None
+        else:
+            # Get query parameters from GET request (search form)
+            q_string = self.request.GET.get('q_string', None)
+            q_cat = self.request.GET.get('q_cat', None)
+        
         queryset = super().get_queryset().exclude(is_active=False)
 
         if self.request.user.is_authenticated:
