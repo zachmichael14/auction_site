@@ -75,7 +75,6 @@ class BrowseListingView(ListView):
         context['search_form'] = SearchForm()
         context['q_string'] = q_string
         context['q_cat'] = q_cat
-        context['kwargs'] = self.request.GET.items()
         return context
 
     def get_queryset(self):
