@@ -17,8 +17,13 @@ class CategoryManager(Manager):
         return self.get_queryset().annotate(count=count)
 
 class ListingManager(Manager):
+    def active(self, user=None):
+        # Return active listings. If user, exclude user's listings from results
+        if user:
+            return self.exclude(is_active=False).exclude(seller=user)
+        return self.exclude(is_active=False)
+
     def new_arrivals(self, user=None, n=6):
         # Return n most recently created listings
-        if user:
-            return self.exclude(is_active=False, seller=user).order_by('-creation_timestamp')[:n]
-        return self.exclude(is_active=False).order_by('-creation_timestamp')[:n]
+        return self.active(user).order_by('-creation_timestamp')[:n]
+

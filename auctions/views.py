@@ -65,10 +65,10 @@ class BrowseListingView(ListView):
         context = super().get_context_data(**kwargs)
         
         if self.kwargs:
-            # Get query parameter from view kwargs (URLconf captured group)
+            # Get q_cat parameter from view kwargs (URLconf captured group)
             q_cat = self.kwargs.get('q_cat', None)
         else:
-            # Get query parameter from GET request (search form)
+            # Get q_cat parameter from GET request (search form)
             q_cat = self.request.GET.get('q_cat', None)
 
         user = None
@@ -79,11 +79,12 @@ class BrowseListingView(ListView):
         context['search_form'] = SearchForm()
         context['q_string'] = self.request.GET.get('q_string', None)
         context['q_cat'] = q_cat
+        context['total'] = Listing.objects.active(user).count()
         return context
 
     def get_queryset(self):
         if self.kwargs:
-            # Get query parameters from view kwargs (URLconf captured group)
+            # Get q_cat parameter from view kwargs (URLconf captured group)
             q_cat = self.kwargs.get('q_cat', None)
             q_string = None
         else:
