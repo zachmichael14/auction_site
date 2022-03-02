@@ -56,9 +56,13 @@ class Listing(models.Model):
             return True
         return False
 
+    def can_watch(self, user):
+        if user != self.seller:
+            if not Watchlist.objects.filter(user=user).filter(listing=self):
+                return True
+        return False
+
     
-
-
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name='bids')
     bidder = models.ForeignKey(User, on_delete=CASCADE, related_name='placed_bids')

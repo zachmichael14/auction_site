@@ -121,6 +121,16 @@
         <!-- Watchlist Widget -->
         <div class="widget watchlist">         
           <!-- WATCHLIST WIDGET TO GO HERE -->
+          
+          {% if user.is_authenticated %}
+            {% if can_watch %}
+              <a href="{% url 'auctions:add_to_watchlist' listing.id %}">Add to watchlist</a>
+            {% else %}
+              You are watching.
+            {% endif %}
+          {% else %}
+            Login to add this to your watchlist.
+          {% endif %}
         </div>
       </div>
     </div>

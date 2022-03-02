@@ -1,18 +1,17 @@
-from pyexpat import model
-from re import template
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
-from django.views.generic import ListView
-from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect
 import datetime
 
-from .models import Category, Listing
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 
 from .forms import ListingForm, SearchForm
+from .models import Category, Listing, Watchlist
+
 
 def index(request):
     new_arrivals = Listing.objects.new_arrivals()
@@ -52,6 +51,16 @@ class ListingDetailView(DetailView):
     context_object_name = 'listing'
     pk_url_kwarg = 'listing_id'	
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        listing = self.get_object()
+        can_watch = False
+        if self.request.user.is_authenticated:
+            can_watch = listing.can_watch(self.request.user)
+        context['can_watch'] = can_watch
+        return context
 
 class BrowseListingView(ListView):
     model = Listing
@@ -104,3 +113,13 @@ class BrowseListingView(ListView):
             # Match q_cat string to unique category name
             queryset = queryset.filter(category__name__contains=q_cat)
         return queryset
+
+
+@login_required
+def add_to_watchlist(request, listing_id):
+    watchlist = Watchlist()
+    watchlist.user = request.user
+    watchlist.listing = Listing.objects.get(pk=listing_id)
+    watchlist.save()
+
+    return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
