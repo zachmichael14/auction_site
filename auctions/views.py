@@ -56,10 +56,10 @@ class ListingDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         listing = self.get_object()
-        can_watch = False
+        is_watched = False
         if self.request.user.is_authenticated:
-            can_watch = listing.can_watch(self.request.user)
-        context['can_watch'] = can_watch
+            is_watched = listing.is_watched(self.request.user)
+        context['is_watched'] = is_watched
         return context
 
 class BrowseListingView(ListView):
@@ -122,4 +122,9 @@ def add_to_watchlist(request, listing_id):
     watchlist.listing = Listing.objects.get(pk=listing_id)
     watchlist.save()
 
+    return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
+
+def remove_from_watchlist(request, listing_id):
+    watchlist = Watchlist.objects.get(user=request.user, listing=listing_id)
+    watchlist.delete()
     return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))

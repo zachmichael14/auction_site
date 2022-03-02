@@ -119,18 +119,22 @@
           <p class="member-time">Member since {{ listing.seller.date_joined|date:"F d, Y" }}</p>
         </div>
         <!-- Watchlist Widget -->
-        <div class="widget watchlist">         
-          <!-- WATCHLIST WIDGET TO GO HERE -->
-          
-          {% if user.is_authenticated %}
-            {% if can_watch %}
-              <a href="{% url 'auctions:add_to_watchlist' listing.id %}">Add to watchlist</a>
-            {% else %}
-              You are watching.
-            {% endif %}
+        <div class="widget watchlist">                   
+        {% if user.is_authenticated %}
+          {% if is_watched %}
+            <h5 class="widget-header text-center">You're currently watching this listing.</h5>
+            <div class="watch-link">
+              <a href="{% url 'auctions:remove_from_watchlist' listing.id %}">Remove from my watchlist</a>
+            </div>
           {% else %}
-            Login to add this to your watchlist.
+            <h5 class="widget-header text-center">You're not currently watching this listing.</h5>
+            <div class="watch-link">
+              <a href="{% url 'auctions:add_to_watchlist' listing.id %}">Add to my watchlist</a>
+            </div>
           {% endif %}
+        {% else %} <!-- User is not logged in -->
+          Log in to add this to your watchlist.
+        {% endif %}
         </div>
       </div>
     </div>
