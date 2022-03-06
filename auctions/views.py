@@ -1,7 +1,8 @@
 import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -9,8 +10,8 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
-from .forms import ListingForm, SearchForm
-from .models import Category, Listing, Watchlist
+from .forms import BidForm, ListingForm, SearchForm
+from .models import Bid, Category, Listing, Watchlist
 
 
 def index(request):
@@ -34,6 +35,8 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+
         # Calculate end date from duration
         duration = datetime.timedelta(days=form.instance.duration) 
         end_date = datetime.datetime.now() + duration
@@ -60,7 +63,9 @@ class ListingDetailView(DetailView):
         if self.request.user.is_authenticated:
             is_watched = listing.is_watched(self.request.user)
         context['is_watched'] = is_watched
+        context['bid_form'] = BidForm(initial={'listing': listing})
         return context
+
 
 class BrowseListingView(ListView):
     model = Listing
@@ -117,14 +122,40 @@ class BrowseListingView(ListView):
 
 @login_required
 def add_to_watchlist(request, listing_id):
-    watchlist = Watchlist()
-    watchlist.user = request.user
-    watchlist.listing = Listing.objects.get(pk=listing_id)
-    watchlist.save()
+    if request.method == 'POST':
+        watchlist = Watchlist()
+        watchlist.user = request.user
+        watchlist.listing = Listing.objects.get(pk=listing_id)
+        watchlist.save()
 
-    return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
+        messages.success(request, f"{watchlist.listing.title} added to your watchlist.")
+        return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
 
+@login_required
 def remove_from_watchlist(request, listing_id):
-    watchlist = Watchlist.objects.get(user=request.user, listing=listing_id)
-    watchlist.delete()
-    return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
+    if request.method == 'POST':
+        watchlist = Watchlist.objects.get(user=request.user, listing=listing_id)
+        watchlist.delete()
+
+        messages.warning(request, f"{watchlist.listing.title} removed from your watchlist.")
+        return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
+
+@login_required
+def create_bid(request, listing_id):
+    if request.method == 'POST':
+        bid_form = BidForm(request.POST)
+
+        if bid_form.is_valid():
+            return render(request, 'auctions/data.html', {"context": bid_form.changed_data})
+
+            bid = bid_form.save(commit=False)
+
+            bid.listing = Listing.objects.get(pk=listing_id)
+            bid.bidder = request.user
+            bid.save()
+
+            messages.success(request, f"Bid successful: ${bid.amount} on {bid.listing.title}.")
+            return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,)))
+        else:
+            messages.error(request, f"Error: {bid_form.errors}")
+            return HttpResponseRedirect(reverse('auctions:listing', args=(listing_id,))) 

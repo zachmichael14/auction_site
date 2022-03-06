@@ -67,19 +67,12 @@ class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=CASCADE, related_name='placed_bids')
     timestamp = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(
-        max_digits=5, 
+        max_digits=19, 
         decimal_places=2, 
-        # validators=[validate_bid]
     )
 
     def __str__(self):
         return str(self.amount)
-
-    def clean_amount(self):
-        amount = self.cleaned_data['amount']
-        top_bid = self.listing.top_bid
-        if amount < top_bid:
-            raise ValidationError('Your bid must be greater than the current top bid.')
 
 
 class Watchlist(models.Model):

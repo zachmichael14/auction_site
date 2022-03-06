@@ -88,27 +88,28 @@
       <div class="sidebar">
         <!-- Bid Widget -->
         <div class="widget price text-center">
-        {% if not listing.is_active %}
-          <h4>This auction is closed.</h4>
-        {% else %}
+        {% if listing.is_active %}
           <h4 class="bid-header">Current Bid</h4>
-          <div class="bid-data">${{ listing.top_bid }}</div>
-          <h4 class="bid-header">Open for</h4>
-          <div class="bid-data">{{ listing.end_date|timeuntil }}</div>
-          <!-- Bid Form -->
+					<div class="bid-data">${{ listing.top_bid }}</div>
+					<h4 class="bid-header">Open for</h4>
+					<div class="bid-data">{{ listing.end_date|timeuntil }}</div>
           {% if user.is_authenticated %}
-            {% if not is_seller %}
-              <h4 class="bid-header">Your Bid</h4>
-
-            {% if is_current_winner %}
-              <div>You are the current winner! You may still increase your bid if you wish.</div>
+        
+            {% if user != listing.seller %}
+              <form action="{% url 'auctions:create_bid' listing.id %}" method="post">
+                {% csrf_token %}
+                {{ bid_form }}
+                {{ bid_form.errors }}
+                <input type="submit" value="Bid">
+              </form>
             {% endif %}
-              {% csrf_token %}
-              {{ bid_form }}
-              <input class="bid-button" type="submit" value="Bid">
-            </form>
-            {% endif %}
+          
+          {% else %} <!-- User not logged in -->
+            <a href="{% url 'users:login' %}">Log in</a><span class="text-white"> to bid on this listing.</span>
           {% endif %}
+
+        {% else %} <!-- Listing not active -->
+          This listing is closed.
         {% endif %}
         </div>
         <!-- User Widget -->
@@ -119,21 +120,29 @@
           <p class="member-time">Member since {{ listing.seller.date_joined|date:"F d, Y" }}</p>
         </div>
         <!-- Watchlist Widget -->
-        <div class="widget watchlist">                   
+        <div class="widget watchlist">  
         {% if user.is_authenticated %}
           {% if is_watched %}
             <h5 class="widget-header text-center">You're currently watching this listing.</h5>
             <div class="watch-link">
-              <a href="{% url 'auctions:remove_from_watchlist' listing.id %}">Remove from my watchlist</a>
+              <form action="{% url 'auctions:remove_from_watchlist' listing.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Remove from my watchlist">
+              </form>
             </div>
           {% else %}
             <h5 class="widget-header text-center">You're not currently watching this listing.</h5>
             <div class="watch-link">
-              <a href="{% url 'auctions:add_to_watchlist' listing.id %}">Add to my watchlist</a>
+              <form action="{% url 'auctions:add_to_watchlist' listing.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Add to my watchlist">
+              </form>
             </div>
           {% endif %}
         {% else %} <!-- User is not logged in -->
-          Log in to add this to your watchlist.
+            <div class="watch-link">
+              <a href="{% url 'users:login' %}">Log in to add this listing to your watchlist</a>
+            </div>
         {% endif %}
         </div>
       </div>
