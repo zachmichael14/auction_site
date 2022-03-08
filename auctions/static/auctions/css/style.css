@@ -1651,26 +1651,22 @@ ul.pagination .active a {
   border-radius: 2px;
 }
 
-.comment-section .review-submission h5 {
+.comment-section .comment-form h5 {
   font-size: 16px;
   color: #888;
 }
 
-.comment-section .review-submission .watchlist {
+.comment-section .comment-form .watchlist {
   margin-bottom: 20px;
 }
 
-.comment-section .review-submission .watchlist i {
+.comment-section .comment-form .watchlist i {
   margin: 0 5px;
 }
 
-.comment-section .review-submission .form-control {
+.comment-section .comment-form .form-control {
   margin-bottom: 8px;
   border-radius: 0;
-}
-
-.comment-section .review-submission input[type="email"], .comment-section .review-submission input[type="password"], .comment-section .review-submission input[type="text"], .comment-section .review-submission input[type="tel"] {
-  height: 40px;
 }
 
 .widget {
