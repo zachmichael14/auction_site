@@ -1,27 +1,10 @@
 # Auction style e-commerce site using Django
 
 ## Introduction
+**Please excuse the mess - work in progress**
+
 With this project, I wanted to create a more fully featured Django application that I could take through deployment. 
 
-Don't mind the mess, it's a work in progress.
+The website is set up as an Ebay-like auction website where users can create an account and bid on items.
 
-### User functionality to add:
-
-* ~~Register for an account~~
-* ~~Login/logout~~
-* List an item for sale
-* Bid on an item
-* Add item to watchlist
-* Update profile and profile picture
-* Comment on an item
-* Update item information and image
-* Delete an item if bidding has not begun
-
-
-### Goals for this project
-* Make forms crispy
-* Explore model managers
-* Create separate apps
-* Explore S3 buckets for storing profile and item images
-* Use class-based views
-* Explore deployment with Heroku
+I'm using SQLite for development but I'll switch to PostgreSQL during production. I intended to deploy using Heroku and I'm exploring AWS's S3 buckets to provide image storage.
