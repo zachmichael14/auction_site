@@ -37,13 +37,16 @@ INSTALLED_APPS = [
     'auctions.apps.AuctionsConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'django.contrib.sites',
+    'django_comments',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,6 +142,5 @@ LOGIN_REDIRECT_URL = 'auctions:index'
 LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'auctions:index'
 
-#So far we've learned the next int being profveide to loing view even though it shows up in the url. SInce login view is 
-
-##If next isn’t provided, it redirects to settings.LOGIN_REDIRECT_URL (which defaults to /accounts/profile/). If login isn’t successful, it redisplays the login form.
+# ID for sites framework (needed for comment module)
+SITE_ID = 1
