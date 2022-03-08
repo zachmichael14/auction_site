@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load comments %}
 {% block title %} {{ listing.title }} {% endblock title %}
     
 {% block body %}
@@ -76,7 +77,25 @@
               <!-- Comments Tab -->
               <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <h3 class="tab-title">Comments</h3>
-                <!-- COMMENTS TO GO HERE -->
+                {% get_comment_list for listing as comment_list %}
+                <div class="comment-section">
+                {% for commment in comment_list %}
+                  <div class="media">
+                    <img src="{{ user.profile.image.url }}" alt="{{ user }} profile picture.">
+                    <div class="media-body">
+                      <div class="name">
+                        <h5>{{ comment.user_name }}</h5>
+                      </div>
+                      <div class="date">
+                        <p>{{ comment.submit_date }}</p>
+                      </div>
+                      <div class="comment">
+
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                </div>
               </div>
             </div>
           <!-- End Listing Info Tabs -->
