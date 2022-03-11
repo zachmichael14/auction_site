@@ -1,12 +1,14 @@
 from auctions.models import Listing
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
+from django.shortcuts import render
 
-from .forms import ProfileUpdateForm, UserRegistrationForm, UserUpdateForm
+from users.forms import ProfileUpdateForm
+from users.forms import UserRegistrationForm
+from users.forms import UserUpdateForm
 
 
-# Create your views here.
 def register(request):
     if request.method == 'POST':
         register_form = UserRegistrationForm(request.POST)
