@@ -7,4 +7,4 @@ With this project, I wanted to create a more fully featured Django application t
 
 The website is set up as an Ebay-like auction website where users can create an account and bid on items.
 
-I'm using SQLite for development but I'll switch to PostgreSQL during production. I intend to deploy using Heroku and I'm exploring AWS's S3 buckets to provide image storage.
+The production database will be built with PostgreSQL, and I intend to deploy using Heroku and I'm exploring AWS's S3 buckets to provide image storage.
