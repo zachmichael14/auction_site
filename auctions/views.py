@@ -3,15 +3,23 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.generic import CreateView
+from django.views.generic import DetailView
 from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic import UpdateView
 
-from .forms import BidForm, ListingForm, SearchForm
-from .models import Bid, Category, Listing, Watchlist
+from auctions.forms import BidForm
+from auctions.forms import ListingCreateForm
+from auctions.forms import ListingUpdateForm
+from auctions.forms import SearchForm
+
+from auctions.models import Category 
+from auctions.models import Listing 
+from auctions.models import Watchlist
 
 
 def index(request):
@@ -31,7 +39,7 @@ def index(request):
 
 class ListingCreateView(LoginRequiredMixin, CreateView):
     model = Listing
-    form_class = ListingForm
+    form_class = ListingCreateForm
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
@@ -44,7 +52,6 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
         # Set model fields omitted from listing form
         form.instance.seller = self.request.user
         form.instance.end_date = end_date
-       
         return super().form_valid(form)
 
 
@@ -57,15 +64,49 @@ class ListingDetailView(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-
         listing = self.get_object()
+
+        # Determine if listing is in user's watchlist
         is_watched = False
         if self.request.user.is_authenticated:
             is_watched = listing.is_watched(self.request.user)
+        
         context['is_watched'] = is_watched
-        context['bid_form'] = BidForm(initial={'listing': listing})
+        context['bid_form'] = BidForm()
         return context
 
+
+class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Listing
+    template_name = 'auctions/create.html'
+    pk_url_kwarg = 'listing_id'
+
+    def get_form_class(self):
+        listing = self.get_object()
+        self.form_class = ListingUpdateForm
+
+        # Allow editing of starting_bid if bidding hasn't begun
+        if listing.top_bid == listing.starting_bid:
+            self.form_class = ListingCreateForm
+        return self.form_class
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+
+        # Calculate end date from duration
+        duration = datetime.timedelta(days=form.instance.duration) 
+        end_date = datetime.datetime.now() + duration
+
+        # Set model fields omitted from listing form
+        form.instance.seller = self.request.user
+        form.instance.end_date = end_date
+        return super().form_valid(form)
+
+    def test_func(self):
+        # Ensure only seller can edit listing
+        listing = self.get_object()
+        return listing.seller == self.request.user
+    
 
 class BrowseListingView(ListView):
     model = Listing
@@ -108,14 +149,16 @@ class BrowseListingView(ListView):
         
         queryset = super().get_queryset().exclude(is_active=False)
 
+        # Exclude user's listings
         if self.request.user.is_authenticated:
-            # Exclude user's listings
             queryset = queryset.exclude(seller=self.request.user)
+ 
+        # Match q_string to listing titles
         if q_string:
-            # Match q_string to listing titles
             queryset = queryset.filter(title__icontains=q_string)
+
+        # Match q_cat string to unique category name
         if q_cat:
-            # Match q_cat string to unique category name
             queryset = queryset.filter(category__name__contains=q_cat)
         return queryset
 
