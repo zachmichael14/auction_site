@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from users.models import AuctionUser
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Listing(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_listings')
+    seller = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='user_listings')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='listings')
     title = models.CharField(max_length=64)
     description = models.TextField()
@@ -31,7 +31,7 @@ class Listing(models.Model):
     )
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
-    winner = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT, related_name='won')
+    winner = models.ForeignKey(AuctionUser, blank=True, null=True, on_delete=models.PROTECT, related_name='won')
     objects = ListingManager()
 
     def __str__(self):
@@ -57,7 +57,7 @@ class Listing(models.Model):
     
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='bids')
-    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name='placed_bids')
+    bidder = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='placed_bids')
     timestamp = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(
         max_digits=19, 
@@ -69,7 +69,7 @@ class Bid(models.Model):
 
 
 class Watchlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_watchlist')
+    user = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='my_watchlist')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
