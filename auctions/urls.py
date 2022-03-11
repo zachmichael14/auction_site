@@ -1,6 +1,7 @@
-from unicodedata import name
-from django.urls import path, re_path
+from django.urls import path
+
 from . import views as auction_views
+
 app_name = 'auctions'
 
 urlpatterns = [
@@ -12,6 +13,6 @@ urlpatterns = [
     path('listing/create/', auction_views.ListingCreateView.as_view(), name='create'),
     path('listing/<int:listing_id>/add/', auction_views.add_to_watchlist, name='add_to_watchlist'),
     path('listing/<int:listing_id>/remove/', auction_views.remove_from_watchlist, name='remove_from_watchlist'),
-    path('listing/<int:listing_id>/bid/', auction_views.create_bid, name='create_bid')
-
+    path('listing/<int:listing_id>/bid/', auction_views.create_bid, name='create_bid'),
+    path('listing/<int:listing_id>/update/', auction_views.ListingUpdateView.as_view(), name='update'),
 ]

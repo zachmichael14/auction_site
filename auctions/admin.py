@@ -1,9 +1,13 @@
 from django.contrib import admin
-from .models import Category, Listing, Bid, Watchlist
-# Register your models here.
 
-# Allow editing of bids from listing admin page
+from auctions.models import Bid
+from auctions.models import Category
+from auctions.models import Listing
+from auctions.models import Watchlist
+
+
 class BidTabularInline(admin.TabularInline):
+    # Allow editing of bids from listing admin page
     model = Bid
 
 

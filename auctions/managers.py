@@ -1,5 +1,6 @@
-from tracemalloc import is_tracing
-from django.db.models import Count, Manager, Q
+from django.db.models import Count
+from django.db.models import Manager
+from django.db.models import Q
 
 
 class CategoryManager(Manager):
