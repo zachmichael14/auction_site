@@ -83,14 +83,14 @@
                   <tr>
                     <td class="product-thumb">
                       <a href="{% url 'auctions:listing' listing.id %}">
-                        <img class="card-img-top" src="#" alt="{{ listing.title }} image">
+                        <img class="card-img-top" src="{{ listing.image.url }}" alt="{{ listing.title }} image">
                       </a>
                     </td>
                     <td class="product-details">
                       <h3 class="title"><a href="{% url 'auctions:listing' listing.id %}">{{ listing.title }}</a></h3>
                       <span><strong>Posted on: </strong><time>{{ listing.creation_timestamp|date:'F d, Y' }}</time></span>
                       <span><strong>Time Left: </strong>{{ listing.end_date|timeuntil }}</span>
-                      <span><strong>Current Bid: </strong>${{ listing.top_bid }}</span>
+                      <span><strong>Top Bid: </strong>${{ listing.top_bid }}</span>
                     </td>
                     <td class="product-category">
                       <span class="categories">{{ listing.category }}</span>

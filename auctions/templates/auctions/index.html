@@ -20,7 +20,10 @@
             <ul class="list-inline">
               {% for category in popular %}
                 <li class="list-inline-item">
-                  <a href="{% url 'auctions:browse' q_cat=category.name %}"><i id="icon-1" class="fa fa-shopping-cart"></i>{{ category }}</a>
+                  <a href="{% url 'auctions:browse' q_cat=category.name %}">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span class="ps-1">{{ category }}</span>
+                  </a>
                 </li>
               {% endfor %}
             </ul>
@@ -76,7 +79,7 @@
                 <!-- Card Thumbnail -->
                 <div class="product-thumb">
                   <a href="{% url 'auctions:listing' listing.id %}">
-                    <img class="card-img-top img-fluid small-img" src="#" alt="{{ listing.title }} image">
+                    <img class="card-img-top img-fluid small-img" src="{{ listing.image.url }}" alt="{{ listing.title }} image">
                   </a>
                 </div>
                 <!-- Card Body -->

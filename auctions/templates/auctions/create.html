@@ -1,20 +1,19 @@
 {% extends "auctions/layout.html" %}
 {% load crispy_forms_tags %}
 {% block title %} Create Listing {% endblock title %}
-    
 
-{% block body %}
 
 {% if form.errors %}
-{% for field in form %}
-  {% for error in field.errors %} 
-       <div class="alert alert-danger">
-      {{ error|escape }}
-       </div>
+  
+  {% for error in form.errors %}
+    {{ error }}
   {% endfor %}
-{% endfor %}
+    
+  
 {% endif %}
+  
 
+{% block body %}
 <section class="ad-post bg-gray py-5">
   <div class="container">
     <form method="post">
@@ -35,24 +34,31 @@
             {{ form.category}}
             <div class="price">
               <div class="row">
+              {% if form.starting_bid %}
                 <h6 class="font-weight-bold pt-4 pb-1 pl-2">Starting Bid (USD):</h6>
                 <div class="pt-3 pl-2">{{ form.starting_bid }}</div>
+              {% else %}
+                <div class="alert alert-info mt-3 ml-2">Starting bid cannot be changed once bidding has begun. </div>   
+              {% endif %}                
               </div>
               <div class="row">
-                <h6 class="font-weight-bold pt-4 pb-1 pl-2">Auction Duration:</h6>
-                <div class="pt-3 pl-2">{{ form.duration }}</div>
-                <div class="aler alert-danger">{{ form.duration.errors}}</div>
+                <h6 class="font-weight-bold pt-3 pb-1 pl-2">Auction Duration:</h6>
+                <div class="pt-2 pl-2">{{ form.duration }}</div>
+              {% if form.duration.errors %}
+                <div class="alert alert-danger">
+                  {{ form.duration.errors}}
+                </div>
+              {% endif %}
               </div>
-              {{ form.duration.errors }}
             </div>
             <h6 class="font-weight-bold pt-4 pb-1">Product Image</h6>
+            {{ form.image }}
 
             <div class="choose-file text-center my-y py-4 rounded">
               <label for="file-upload">
                 <span class="d-block btn bg-primary text-white my-3 select-files">Select files</span>
                 <span class="d-block">Maximum upload file size: 500 KB</span>
-                <input type="file" class="form-control-file d-none" id="file-upload" name="image">
-            </label>
+              </label>
           </div>
         </div>
       </fieldset>

@@ -22,8 +22,8 @@
               </li>
             </ul>
           </div>
-          <div>
-            <!-- PRODUCT IMAGE TO GO HERE -->
+          <div class="my-4">
+            <img class="d-block img-fluid w-100" src="{{ listing.image.url }}" alt="{{ listing.title }} image">
           </div>
           <!-- Listing Tabs -->
           <div class="content mt-5 pt-5">
@@ -178,7 +178,7 @@
             <div class="watch-link">
               <form action="{% url 'auctions:add_to_watchlist' listing.id %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Add to my watchlist">
+                <input class="btn btn-primary" type="submit" value="Add to my watchlist">
               </form>
             </div>
             {% endif %}
