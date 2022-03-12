@@ -13,7 +13,6 @@ from users.forms import UserUpdateForm
 from users.models import AuctionUser
 
 
-
 class UserUpdateView(UpdateView):
     model = AuctionUser
     template_name = 'users/edit_profile.html'
@@ -48,4 +47,6 @@ def register(request):
         
 
 class ProfileView(LoginRequiredMixin, ListView):
-    pass
+    
+    template_name = 'users/profile.html'
+    
