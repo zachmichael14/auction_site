@@ -3,6 +3,7 @@ from auctions.models import Listing
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import ListView
@@ -46,7 +47,11 @@ def register(request):
 #     return render(request, 'users/profile.html', context)
         
 
-class ProfileView(LoginRequiredMixin, ListView):
-    
+class ProfileView(UserPassesTestMixin, LoginRequiredMixin, ListView):
+    model = AuctionUser
     template_name = 'users/profile.html'
-    
+
+    def test_func(self):
+        # Ensure user can only view their own profile
+        pass
+
