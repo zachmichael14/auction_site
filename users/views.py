@@ -47,11 +47,10 @@ def register(request):
 #     return render(request, 'users/profile.html', context)
         
 
-class ProfileView(UserPassesTestMixin, LoginRequiredMixin, ListView):
+class ProfileView(LoginRequiredMixin, ListView):
     model = AuctionUser
     template_name = 'users/profile.html'
 
-    def test_func(self):
-        # Ensure user can only view their own profile
-        pass
-
+    # def test_func(self):
+    #     # Ensure user can only view their own profile
+    #     pass
