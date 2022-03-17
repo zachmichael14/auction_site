@@ -43,7 +43,7 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
-        """If the form is valid, save the associated model."""
+        # If the form is valid, save the associated model
 
         # Calculate end date from duration
         duration = datetime.timedelta(days=form.instance.duration) 
