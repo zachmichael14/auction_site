@@ -82,10 +82,10 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     pk_url_kwarg = 'listing_id'
 
     def get_form_class(self):
-        listing = self.get_object()
         self.form_class = ListingUpdateForm
 
         # Allow editing of starting_bid if bidding hasn't begun
+        listing = self.get_object()
         if listing.top_bid == listing.starting_bid:
             self.form_class = ListingCreateForm
         return self.form_class
