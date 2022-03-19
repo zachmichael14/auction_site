@@ -32,6 +32,7 @@ class Listing(models.Model):
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
     winner = models.ForeignKey(AuctionUser, blank=True, null=True, on_delete=models.PROTECT, related_name='won')
+
     objects = ListingManager()
 
     def __str__(self):
@@ -69,7 +70,7 @@ class Bid(models.Model):
 
 
 class Watchlist(models.Model):
-    user = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='my_watchlist')
+    user = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='user_watchlist')
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
