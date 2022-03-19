@@ -58,8 +58,8 @@
                   <span><i class="fa fa-angle-down"></i></span>
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'users:profile' user.pk %}">My Account</a>
-                  <a class="dropdown-item" href="#">Edit Account</a>
+                  <a class="dropdown-item" href="{% url 'users:profile' %}">My Account</a>
+                  <a class="dropdown-item" href="{% url 'users:edit' user.id %}">Edit Account</a>
                   <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
                 </div>
               </li>
