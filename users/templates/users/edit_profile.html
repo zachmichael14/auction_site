@@ -1,0 +1,105 @@
+{% extends "auctions/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Register {% endblock title %}
+
+{% block body %}
+<section class="dashboard-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+        <div class="sidebar">
+          <div class="widget user-dashboard-profile">
+            <div class="profile-thumb">
+              <img class="rounded-circle" src="{{ user.image.url }}" alt="{{ user }} profile picture.">
+            </div>
+            <h5 class="text-center">{{ user }}</h5>
+            <p>Joined {{ user.date_joined|date:"F d, Y"}}</p>
+          </div>
+          <div class="widget user-dashboard-menu">
+            <ul class="nav justify-content-center flex-column">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='active' %}">
+                  <i class="fa fa-check"></i>
+                  Active Listings
+                  <span>{{ counts.active }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='closed' %}">
+                  <i class="fa fa-history"></i>
+                  Closed Listings
+                  <span>{{ counts.closed }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='watched' %}">
+                  <i class="fa fa-bookmark"></i>
+                  Watchlist
+                  <span>{{ counts.watched }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='won' %}">
+                  <i class="fa fa-trophy"></i>
+                  Won Listings
+                  <span>{{ counts.won }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:edit' user.id %}">
+                  <i class="fa fa-edit"></i>
+                  Edit Account
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:logout' %}">
+                  <i class="fa fa-sign-out"></i>
+                  Logout
+                </a>
+							</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+        <div class="widget dashboard-container">
+          <h2 class="border-bottom">Edit profile</h2>
+          <!-- Edit Profile -->
+          <form method="post">
+            {% csrf_token %}
+            <!-- First Name -->
+            <div class="row">
+              <div class="ml-2 mb-3 pl-1">First Name:</div>
+              <div class="ml-2">{{ form.first_name }}</div>
+            </div>
+            <!-- Last Name -->
+            <div class="row">
+              <div class="ml-2 mb-3 pl-1">Last Name:</div>
+              <div class="ml-2">{{ form.last_name }}</div>
+            </div>
+            <!-- Email -->
+            <div class="row">
+              <div class="ml-2 mb-3 pl-1">Email Address:</div>
+              <div class="ml-2">{{ form.email }}</div>
+            </div>
+            <!-- Profile Pictue -->
+            <div class="row">
+              <div class="ml-2 mb-3 pl-1">Profile Picture:</div>
+              <div class="ml-2">{{ form.pic }}</div>
+            </div>
+            <button type="submit" class="btn btn-transparent">Save My Changes</button>
+          </form>
+          <a href="#">Change Password</a>
+          <br>
+          <a href="#">Delete Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock body %}

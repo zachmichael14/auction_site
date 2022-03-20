@@ -43,7 +43,7 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
-        """If the form is valid, save the associated model."""
+        # If the form is valid, save the associated model
 
         # Calculate end date from duration
         duration = datetime.timedelta(days=form.instance.duration) 
@@ -82,10 +82,10 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     pk_url_kwarg = 'listing_id'
 
     def get_form_class(self):
-        listing = self.get_object()
         self.form_class = ListingUpdateForm
 
         # Allow editing of starting_bid if bidding hasn't begun
+        listing = self.get_object()
         if listing.top_bid == listing.starting_bid:
             self.form_class = ListingCreateForm
         return self.form_class

@@ -1888,13 +1888,13 @@ ul.pagination .active a {
   margin-bottom: 10px;
 }
 
-.widget .welcome-message h2 {
+.widget h2 {
   font-size: 30px;
   line-height: 54px;
   letter-spacing: .05em;
 }
 
-.widget .welcome-message p {
+.widget p {
   font-size: 14px;
   line-height: 26px;
   letter-spacing: 0;
