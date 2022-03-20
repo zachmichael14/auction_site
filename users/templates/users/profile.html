@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load url_extras %}
 
 {% block title %} {{ user }}'s Account {% endblock title %}
 
@@ -16,37 +17,37 @@
             <p>Joined {{ user.date_joined|date:"F d, Y"}}</p>
           </div>
           <div class="widget user-dashboard-menu">
-            <ul class="nav nav-pills justify-content-center flex-column" id="pills-tab" role="tablist">
+            <ul class="nav justify-content-center flex-column">
               <li class="nav-item">
-                <a class="nav-link active" id="pills-active-tab" data-toggle="pill" href="#pills-active" role="tab" aria-controls="pills-active" aria-selected="True">
+                <a class="nav-link" href="{% url 'users:profile' q_set='active' %}">
                   <i class="fa fa-check"></i>
-                  Active Listings 
-                  <span>{{ active_listings|length }}</span>
+                  Active Listings
+                  <span>{{ counts.active }}</span>  
                 </a>
               </li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-watchlist-tab" data-toggle="pill" href="#pills-watchlist" role="tab" aria-controls="pills-watchlist" aria-selected="false">
-                  <i class="fa fa-bookmark"></i>
-                  Watchlist 
-                  <span>{{ watchlist|length }}</span>
-                </a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-archived-tab" data-toggle="pill" href="#pills-archived" role="tab" aria-controls="pills-archived" aria-selected="false">
-                  <i class="fa fa-history"></i>
-                  Archived Listings
-                  <span>{{ archived_listings|length }}</span>
-                </a>
-							</li>
               <li class="nav-item">
-								<a class="nav-link" id="pills-won-tab" data-toggle="pill" href="#pills-won" role="tab" aria-controls="pills-won" aria-selected="false">
+                <a class="nav-link" href="{% url 'users:profile' q_set='closed' %}">
+                  <i class="fa fa-history"></i>
+                  Closed Listings
+                  <span>{{ counts.closed }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='watched' %}">
+                  <i class="fa fa-bookmark"></i>
+                  Watchlist
+                  <span>{{ counts.watched }}</span>  
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users:profile' q_set='won' %}">
                   <i class="fa fa-trophy"></i>
                   Won Listings
-                  <span>{{ user.won.all|length }}</span>
+                  <span>{{ counts.won }}</span>  
                 </a>
-							</li>
+              </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'users:edit' user.id %}">
                   <i class="fa fa-edit"></i>
                   Edit Account
                 </a>
@@ -62,12 +63,10 @@
         </div>
       </div>
       <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-        <div class="widget dashboard-container my-adslist">
-          <div class="tab-content" id="pills-tabContent">
-            <!-- Active Listings-->
-            <div class="tab-pane active" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab">
-              <h3 class="tab-title">My Active Listings</h3>
-            {% if active_listings %}
+        <div class="widget dashboard-container">
+            <!-- Listings-->
+            {% if listings %}
+            <h2>My {{ q_set|capfirst }} Listings</h2>
               <table class="table table-responsive product-dashboard-table">
                 <thead>
                   <tr>
@@ -78,7 +77,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                {% for listing in active_listings %}
+                {% for listing in listings %}
                   <tr>
                     <td class="product-thumb">
                       <a href="{% url 'auctions:listing' listing.id %}">
@@ -115,8 +114,24 @@
             {% else %}
               Nothing to report.
             {% endif %}
-            </div>
-          </div>
+        </div>
+        <!-- Pagination -->
+        <div class="pagination">
+          <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="?{% query_params page=1 %}">&laquo; first</a>
+            <a href="?{% query_params page=page_obj.previous_page_number %}">prev | </a>
+          {% endif %}
+  
+            <span class="current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+  
+          {% if page_obj.has_next %}
+            <a href="?{% query_params page=page_obj.next_page_number %}"> | next</a>
+            <a href="?{% query_params page=page_obj.paginator.num_pages %}">last &raquo;</a>
+          {% endif %}
+          </span>
         </div>
       </div>
     </div>
