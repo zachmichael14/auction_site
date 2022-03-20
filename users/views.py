@@ -1,7 +1,4 @@
-from re import template
-from auctions.models import Listing
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
@@ -14,11 +11,33 @@ from users.forms import UserUpdateForm
 from users.models import AuctionUser
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
     model = AuctionUser
     template_name = 'users/edit_profile.html'
-    fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'image']
+    form_class = UserUpdateForm
 
+
+    def test_func(self):
+        # Ensure users can only edit their own profile
+        user = self.get_object()
+        return self.request.user == user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        counts = {
+            'active': user.active().count(),
+            'closed': user.closed().count(),
+            'won': user.won_listings().count(),
+            'watched': user.user_watchlist.all().count(),
+
+        }
+        context['counts'] = counts
+
+        return context
+
+    
 
 def register(request):
     if request.method == 'POST':
@@ -33,24 +52,42 @@ def register(request):
     return render(request, 'users/register.html', {
         'register_form': register_form
     })
-
-
-# @login_required
-# def profile(request):
-#     u_update_form = UserUpdateForm()
-
-#     context = {
-#         'active_listings': Listing.objects.exclude(is_active=False).filter(seller=request.user),
-#         'u_update_form': u_update_form,
-#     }
-
-#     return render(request, 'users/profile.html', context)
         
 
 class ProfileView(LoginRequiredMixin, ListView):
     model = AuctionUser
     template_name = 'users/profile.html'
+    context_object_name = 'listings'
+    paginate_by = 10
 
-    # def test_func(self):
-    #     # Ensure user can only view their own profile
-    #     pass
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        counts = {
+            'active': user.active().count(),
+            'closed': user.closed().count(),
+            'won': user.won_listings().count(),
+            'watched': user.user_watchlist.all().count(),
+
+        }
+
+        context['q_set'] = self.kwargs.get('q_set')
+        context['counts'] = counts
+        return context 
+
+    def get_queryset(self):
+        queryset = super(ProfileView, self).get_queryset()
+        user = self.request.user
+
+        # Since queries don't hit database until evalution, construct dict of options.
+        q_sets = {
+            'active': user.active(),
+            'closed': user.closed(),
+            'won': user.won_listings(),
+            'watched': user.watched(),
+        }
+        q = self.kwargs.get('q_set')
+        if q:
+            return q_sets[q]
+        return user.active()
