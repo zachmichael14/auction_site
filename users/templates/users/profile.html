@@ -19,28 +19,28 @@
           <div class="widget user-dashboard-menu">
             <ul class="nav justify-content-center flex-column">
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:profile' q_set='active' %}">
+                <a class="nav-link" href="{% url 'users:profile_search' pk=user.id q_set='active' %}">
                   <i class="fa fa-check"></i>
                   Active Listings
                   <span>{{ counts.active }}</span>  
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:profile' q_set='closed' %}">
+                <a class="nav-link" href="{% url 'users:profile_search' pk=user.id q_set='closed' %}">
                   <i class="fa fa-history"></i>
                   Closed Listings
                   <span>{{ counts.closed }}</span>  
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:profile' q_set='watched' %}">
+                <a class="nav-link" href="{% url 'users:profile_search' pk=user.id q_set='watched' %}">
                   <i class="fa fa-bookmark"></i>
                   Watchlist
                   <span>{{ counts.watched }}</span>  
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'users:profile' q_set='won' %}">
+                <a class="nav-link" href="{% url 'users:profile_search' pk=user.id q_set='won' %}">
                   <i class="fa fa-trophy"></i>
                   Won Listings
                   <span>{{ counts.won }}</span>  
@@ -101,9 +101,18 @@
                           </a>
                         </li>
                         <li class="list-inline-item">
-                          <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete Listing" href="#">
+                        {% if q_set == 'watched' %}
+                          <form action="{% url 'auctions:remove_from_watchlist' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="delete" data-toggle="tooltip" data-placement="top" type="submit" title="Remove from Watchlist">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </form>
+                        {% else %}
+                          <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete Listing" href="{% url 'auctions:delete' listing.id %}">
                             <i class="fa fa-trash"></i>
                           </a>
+                        {% endif %}
                         </li>
                       </ul>
                     </td>
