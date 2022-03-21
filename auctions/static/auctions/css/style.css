@@ -230,6 +230,11 @@ a {
   color: #000;
 }
 
+button {
+  transition: all .3s ease-in 0s;
+  color: #000;
+}
+
 iframe {
   border: 0;
 }
@@ -1098,19 +1103,23 @@ ul.pagination .active a {
   width: 15%;
 }
 
-.dashboard-container tbody tr:hover .action a {
+.dashboard-container tbody .action a:hover {
   color: #fff;
 }
 
-.dashboard-container tbody tr:hover .action a.edit {
+.dashboard-container tbody .action button:hover {
+  color: #fff;
+}
+
+.dashboard-container tbody .action a.edit {
   background: #59d659;
 }
 
-.dashboard-container tbody tr:hover .action a.view {
+.dashboard-container tbody .action a.view:hover {
   background: #50c6e9;
 }
 
-.dashboard-container tbody tr:hover .action a.delete {
+.dashboard-container tbody .action button.delete:hover {
   background: #ff5252;
 }
 
@@ -1148,6 +1157,17 @@ ul.pagination .active a {
   text-align: center;
 }
 
+.dashboard-container .action button {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: None;
+  font-size: 14px;
+  color: #363b4d;
+  text-align: center;
+  display: inline-block;
+}
+
 .dashboard-container .action a {
   width: 40px;
   height: 40px;
@@ -1161,8 +1181,11 @@ ul.pagination .active a {
 .dashboard-container .action a:hover {
   color: #fff;
 }
+.dashboard-container .action button:hover {
+  color: #fff;
+}
 
-.dashboard-container .action a:hover.delete {
+.dashboard-container .action button:hover.delete {
   background: #ff5252;
 }
 
@@ -1186,13 +1209,6 @@ ul.pagination .active a {
   background: #f7f7f7;
 }
 
-.submit-coupon .form-control, .submit-coupon .sbHolder {
-  margin-bottom: 30px;
-}
-
-.submit-coupon button {
-  margin-top: 20px;
-}
 
 .deals-categories {
   padding: 100px 0 0 0;
@@ -1214,52 +1230,6 @@ ul.pagination .active a {
 
 .hero-area-2 form {
   margin-bottom: 13px;
-}
-
-.hero-area-2 .coupon-ig {
-  margin-bottom: 6px;
-  /* WebKit, Blink, Edge */
-  /* Mozilla Firefox 4 to 18 */
-  /* Mozilla Firefox 19+ */
-  /* Internet Explorer 10-11 */
-  /* Microsoft Edge */
-}
-
-.hero-area-2 .coupon-ig input {
-  background: #5672f9;
-  color: #fff;
-  border-color: transparent;
-}
-
-.hero-area-2 .coupon-ig .input-group-addon {
-  background: #5672f9;
-  color: #fff;
-  border-left: none;
-}
-
-.hero-area-2 .coupon-ig .input-group-addon i {
-  font-size: 17px;
-  padding-right: 7px;
-}
-
-.hero-area-2 .coupon-ig .form-control::-webkit-input-placeholder {
-  color: white;
-}
-
-.hero-area-2 .coupon-ig .form-control:-moz-placeholder {
-  color: white;
-}
-
-.hero-area-2 .coupon-ig .form-control::-moz-placeholder {
-  color: white;
-}
-
-.hero-area-2 .coupon-ig .form-control:-ms-input-placeholder {
-  color: white;
-}
-
-.hero-area-2 .coupon-ig .form-control::-ms-input-placeholder {
-  color: white;
 }
 
 .hero-area-2 .category-search .form-control {
