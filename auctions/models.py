@@ -42,18 +42,29 @@ class Listing(models.Model):
         from django.urls import reverse
         return reverse('auctions:listing', kwargs={'listing_id': self.pk})
 
+    def get_winner(self):
+        """
+        Return current highest bidder. 
+        Return None if no bids have been placed.
+        """
+        if self.top_bid == self.starting_bid:
+            return None
+        return self.top_bid.bidder
+
+    def is_watched(self, user):
+        """Return True if listing is in user's watchlist."""
+        if Watchlist.objects.filter(user=user, listing=self).exists():
+            return True
+        return False
+
     @property
     def top_bid(self):
+        """Return current highest bid."""
         # Check for bids on listing
         if Bid.objects.filter(listing=self.id).exists():
             # If bids, return highest
             return Bid.objects.filter(listing=self.id).order_by('-amount').first()
         return self.starting_bid
-
-    def is_watched(self, user):
-        if Watchlist.objects.filter(user=user, listing=self).exists():
-            return True
-        return False
 
     
 class Bid(models.Model):
