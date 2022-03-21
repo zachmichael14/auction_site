@@ -58,17 +58,17 @@
                   <span><i class="fa fa-angle-down"></i></span>
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'users:profile' %}">My Account</a>
+                  <a class="dropdown-item" href="{% url 'users:profile' user.id %}">My Account</a>
                   <a class="dropdown-item" href="{% url 'users:edit' user.id %}">Edit Account</a>
                   <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
                 </div>
               </li>
             {% else %}
-              <li class="nav-item">
-                <a class="nav-link login-button" href="{% url 'users:login' %}">Log In</a>
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="{% url 'users:login' %}">Log In</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link login-button" href="{% url 'users:register' %}">Sign Up</a>
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="{% url 'users:register' %}">Sign Up</a>
               </li>
             {% endif %}     
             </ul>
