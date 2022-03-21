@@ -141,6 +141,7 @@ class ListingUpdateForm(forms.ModelForm):
         model = Listing     
         fields = ['title', 'description', 'category', 'image', 'duration']
     
+
 class SearchForm(forms.Form):
     q_string = forms.CharField(
         label='',
@@ -153,7 +154,6 @@ class SearchForm(forms.Form):
             }
         )
     )
-
     q_cat = forms.ModelChoiceField(
         label='',
         required=False,
