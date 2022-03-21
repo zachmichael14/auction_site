@@ -10,7 +10,7 @@ class BidForm(forms.ModelForm):
         model = Bid
         fields = ['amount']
 
-    amount = forms.CharField(
+    amount = forms.DecimalField(
         label = '',
         widget = forms.NumberInput(
             attrs = {
@@ -21,15 +21,16 @@ class BidForm(forms.ModelForm):
         )
     ) 
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     print(self.cleaned_data)
-    #     listing = cleaned_data.get('listing')
-    #     amount = Decimal(cleaned_data.get('amount'))
-    #     if amount < listing.top_bid.amount:
-    #         raise forms.ValidationError({'amount': 'Your bid must be greater than the current top bid.'})
-    #     elif amount > listing.top_bid.amount + 500:
-    #         raise forms.ValidationError({'amount': 'Your bid cannot be more than $500 higher the current top bid.'})
+    def __init__(self, listing, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.listing = listing
+
+    def clean(self):
+        amount = self.cleaned_data['amount']
+        if amount < self.listing.top_bid.amount:
+            raise forms.ValidationError("Your bid must be greater than the current top bid.")
+        elif amount > self.listing.top_bid.amount + 500:
+            raise forms.ValidationError("Your bid cannot be more than $500 higher the current top bid.")
 
 
 class ListingCreateForm(forms.ModelForm):
