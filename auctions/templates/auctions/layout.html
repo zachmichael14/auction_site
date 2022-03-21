@@ -92,7 +92,7 @@
   {% endblock body %}
 
   <!-- Footer -->
-  <footer class="footer section section-sm">
+  <footer class="footer py-4">
     <div class="container">
       <div class="row">
         <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
@@ -107,14 +107,17 @@
             <h4>Site Map</h4>
             <ul>
               <li><a href="{% url 'auctions:index' %}">Home</a></li>
+              <li><a href="{% url 'auctions:browse' %}">Browse</a></li>
+              <li><a href="{% url 'users:login' %}">Login</a></li>
+              <li><a href="{% url 'users:register' %}">Register</a></li>
             </ul>
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
+       <!-- <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
           <div class="block">
             <h4>Account Pages</h4>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </footer>
