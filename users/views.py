@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.views.generic import DeleteView
 from django.views.generic import UpdateView
 
 from users.forms import UserCreateForm
@@ -11,16 +12,11 @@ from users.forms import UserUpdateForm
 from users.models import AuctionUser
 
 
-class UserView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class UserView(LoginRequiredMixin, ListView):
     model = AuctionUser
     template_name = 'users/profile.html'
     context_object_name = 'listings'
     paginate_by = 10
-
-    def test_func(self):
-        # Ensure users can only view their own profile
-        user = self.get_object()
-        return self.request.user == user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,7 +51,12 @@ class UserView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return user.active()
 
 
-class UserUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = AuctionUser
+    success_url = '/' 
+
+
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AuctionUser
     template_name = 'users/edit_profile.html'
     form_class = UserUpdateForm
@@ -79,7 +80,7 @@ class UserUpdateView(UserPassesTestMixin, LoginRequiredMixin, UpdateView):
         context['counts'] = counts
 
         return context
-
+    
 
 def register(request):
     if request.method == 'POST':
@@ -94,5 +95,3 @@ def register(request):
     return render(request, 'users/register.html', {
         'register_form': register_form
     })
-        
-
