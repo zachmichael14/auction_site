@@ -89,17 +89,14 @@
               <div class="ml-2 mb-3 pl-1">Profile Picture:</div>
               <div class="ml-2">{{ form.pic }}</div>
             </div>
-            <button type="submit" class="btn btn-transparent">Save My Changes</button>
+            <button type="submit" class="btn btn-primary">Save My Changes</button>
           </form>
-          <a href="#">Change Password</a>
+          <a class="btn btn-dark mt-2" href="#">Change Password</a>
           <br>
-          <a href="#">Delete Account</a>
+          <a class="btn btn-danger mt-2" href="{% url 'users:delete' user.id %}">Delete Account</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-
-
 {% endblock body %}
