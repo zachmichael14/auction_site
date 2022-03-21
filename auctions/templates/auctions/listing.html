@@ -81,6 +81,8 @@
               <!-- Comments Tab -->
               <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <h3 class="tab-title">Comments</h3>
+
+                {% if user.is_authenticated %}
                 {% get_comment_list for listing as comment_list %}
                 <div class="comment-section">
                   {% for comment in comment_list %}
@@ -117,6 +119,9 @@
                     {% endif %}
                   </div>
                 </div>
+                {% else %}
+                  <a class="text-info" href="{% url 'users:login' %}">Log in</a> to join the conversation.
+                {% endif %}
               </div>
             </div>
             <!-- End Listing Tabs -->
@@ -128,36 +133,39 @@
         <div class="sidebar">
           <!-- Bid Widget -->
           <div class="widget price text-center">
-            {% if listing.is_active %}
+          {% if listing.is_active %}
             <h4 class="bid-header">Current Bid</h4>
             <div class="bid-data">${{ listing.top_bid }}</div>
             <h4 class="bid-header">Open for</h4>
             <div class="bid-data">{{ listing.end_date|timeuntil }}</div>
             {% if user.is_authenticated %}
 
-            {% if user != listing.seller %}
-            <form action="{% url 'auctions:create_bid' listing.id %}" method="post">
-              {% csrf_token %}
-              {{ bid_form }}
-              {{ bid_form.errors }}
-              <input type="submit" value="Bid">
-            </form>
+              {% if user != listing.seller %}
+                <form action="{% url 'auctions:create_bid' listing.id %}" method="post">
+                  {% csrf_token %}
+                  {{ bid_form }}
+                  <input type="submit" value="Bid">
+                </form>
+              {% else %} <!-- User is seller -->
+                <form action="{% url 'auctions:close' listing.id %}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Close listing">
+                </form>
+                <a href="{% url 'auctions:update' listing.id %}">Edit this listing</a>
+              {% endif %}
+
+            {% else %} <!-- User not logged in -->
+              <a class="text-muted" href="{% url 'users:login' %}">Log in</a><span class="text-white"> to bid on this listing.</span>
             {% endif %}
 
-            {% else %}
-            <!-- User not logged in -->
-            <a href="{% url 'users:login' %}">Log in</a><span class="text-white"> to bid on this listing.</span>
-            {% endif %}
-
-            {% else %}
-            <!-- Listing not active -->
+          {% else %} <!-- Listing not active -->
             This listing is closed.
-            {% endif %}
+          {% endif %}
           </div>
           <!-- User Widget -->
           <div class="widget user text-center">
             <h5 class="widget-header">Listed By:</h5>
-            <img class="rounded-circle img-fluid mb-5 px-5" src="{{ user.profile.image.url }}"
+            <img class="rounded-circle img-fluid mb-5 px-5" src="{{ listing.seller.image.url }}"
               alt="{{ listing.seller }} profile image">
             <h4><a href="#">{{ listing.seller }}</a></h4>
             <p class="member-time">Member since {{ listing.seller.date_joined|date:"F d, Y" }}</p>
@@ -170,7 +178,7 @@
             <div class="watch-link">
               <form action="{% url 'auctions:remove_from_watchlist' listing.id %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Remove from my watchlist">
+                <input class="btn btn-primary" type="submit" value="Remove from my watchlist">
               </form>
             </div>
             {% else %}
@@ -185,7 +193,7 @@
             {% else %}
             <!-- User is not logged in -->
             <div class="watch-link">
-              <a href="{% url 'users:login' %}">Log in to add this listing to your watchlist</a>
+              <a class="text-info" href="{% url 'users:login' %}">Log in</a> to add this listing to your watchlist
             </div>
             {% endif %}
           </div>
