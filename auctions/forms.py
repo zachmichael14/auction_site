@@ -1,15 +1,13 @@
+import datetime
+
 from django import forms
 
-from .models import Bid
-from .models import Category
-from .models import Listing
+from auctions.models import Bid
+from auctions.models import Category
+from auctions.models import Listing
 
 
 class BidForm(forms.ModelForm):
-    class Meta:
-        model = Bid
-        fields = ['amount']
-
     amount = forms.DecimalField(
         label = '',
         widget = forms.NumberInput(
@@ -19,7 +17,12 @@ class BidForm(forms.ModelForm):
                 'placeholder': 'Bid',
             }
         )
-    ) 
+    )
+
+
+    class Meta:
+        model = Bid
+        fields = ['amount'] 
 
     def __init__(self, listing, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,8 +42,15 @@ class ListingCreateForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {
                 'class': 'border w-100 p-2 bg-white',
-                'name': 'listing_form-title',
                 'placeholder': 'Title',
+            }
+        )
+    )
+    end_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'border-0 py-2 w-100 price'
             }
         )
     )
@@ -49,7 +59,6 @@ class ListingCreateForm(forms.ModelForm):
         widget = forms.Textarea(
             attrs = {
                 'class': 'border p-3 w-100',
-                'name': 'listing_form-description',
                 'placeholder': 'Write details about your product',
             }
         )
@@ -61,16 +70,7 @@ class ListingCreateForm(forms.ModelForm):
             attrs = {
                 'id': 'inputGroupSelect',
                 'class': 'w-100',
-                'name': 'listing_form-category',
                 'placeholder': 'Category',
-            }
-        )
-    )
-    duration = forms.IntegerField(
-        widget=forms.NumberInput(
-            attrs={
-                'class': 'border-0 py-2 w-100 price',
-                'placeholder': 'Duration (3-31 days)',
             }
         )
     )
@@ -85,7 +85,17 @@ class ListingCreateForm(forms.ModelForm):
 
     class Meta:
         model = Listing     
-        fields = ['title', 'description', 'category', 'image', 'duration', 'starting_bid']
+        fields = ['title', 'description', 'category', 'image', 'end_date', 'starting_bid']
+
+    def clean_end_date(self):
+        end_date = self.cleaned_data['end_date']
+        now = datetime.date.today()
+        min_end = now + datetime.timedelta(days=3)
+        max_end = now + datetime.timedelta(days=31)
+
+        if end_date > max_end or end_date < min_end:
+            raise forms.ValidationError("End date must be between 3 and 31 days in the future")
+        return end_date
 
 
 class ListingUpdateForm(forms.ModelForm):
@@ -94,7 +104,6 @@ class ListingUpdateForm(forms.ModelForm):
         widget = forms.TextInput(
             attrs = {
                 'class': 'border w-100 p-2 bg-white',
-                'name': 'listing_form-title',
                 'placeholder': 'Title',
             }
         )
@@ -104,7 +113,6 @@ class ListingUpdateForm(forms.ModelForm):
         widget = forms.Textarea(
             attrs = {
                 'class': 'border p-3 w-100',
-                'name': 'listing_form-description',
                 'placeholder': 'Write details about your product',
             }
         )
@@ -116,16 +124,15 @@ class ListingUpdateForm(forms.ModelForm):
             attrs = {
                 'id': 'inputGroupSelect',
                 'class': 'w-100',
-                'name': 'listing_form-category',
                 'placeholder': 'Category',
             }
         )
     )
-    duration = forms.IntegerField(
-        widget=forms.NumberInput(
+    end_date = forms.DateField(
+        widget=forms.DateInput(
             attrs={
-                'class': 'border-0 py-2 w-100 price',
-                'placeholder': 'Duration (3-31 days)',
+                'type': 'date',
+                'class': 'border-0 py-2 w-100 price'
             }
         )
     )
@@ -139,7 +146,17 @@ class ListingUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Listing     
-        fields = ['title', 'description', 'category', 'image', 'duration']
+        fields = ['title', 'description', 'category', 'image', 'end_date']
+
+    def clean_end_date(self):
+        end_date = self.cleaned_data['end_date']
+        now = datetime.date.today()
+        min_end = now + datetime.timedelta(days=3)
+        max_end = now + datetime.timedelta(days=31)
+
+        if end_date > max_end or end_date < min_end:
+            raise forms.ValidationError("End date must be between 3 and 31 days in the future")
+        return end_date
     
 
 class SearchForm(forms.Form):

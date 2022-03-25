@@ -23,12 +23,6 @@ class Listing(models.Model):
     image = models.ImageField(blank=True, default='no_image.png', upload_to='listing_pics')
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     creation_timestamp = models.DateTimeField(auto_now_add=True)
-    duration = models.PositiveIntegerField(
-        validators=[
-            MinValueValidator(3, message='Duration must be between 3 and 31 days (inclusive).'),
-            MaxValueValidator(31, message='Duration must be between 3 and 31 days (inclusive).'),
-        ]
-    )
     end_date = models.DateField()
     is_active = models.BooleanField(default=True)
     winner = models.ForeignKey(AuctionUser, blank=True, null=True, on_delete=models.PROTECT, related_name='won')
@@ -37,7 +31,7 @@ class Listing(models.Model):
 
     def __str__(self):
         return f'{self.title} (ID: {self.id}) by {self.seller}'
-
+        
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('auctions:listing', kwargs={'listing_id': self.pk})
