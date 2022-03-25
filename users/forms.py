@@ -19,9 +19,9 @@ class UserUpdateForm(UserChangeForm):
     first_name = forms.CharField(max_length=150)
     last_name = forms.CharField(max_length=150)
     email = forms.EmailField()
-    pic = forms.ImageField()
+    image = forms.ImageField()
 
     class Meta:
         model = AuctionUser
-        fields = ['first_name', 'last_name', 'email', 'pic']
+        fields = ['first_name', 'last_name', 'email', 'image']
 
