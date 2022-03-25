@@ -149,9 +149,9 @@
               {% else %} <!-- User is seller -->
                 <form action="{% url 'auctions:close' listing.id %}" method="post">
                   {% csrf_token %}
-                  <input type="submit" value="Close listing">
+                  <input class="btn btn-secondary mb-1" type="submit" value="Close listing">
                 </form>
-                <a href="{% url 'auctions:update' listing.id %}">Edit this listing</a>
+                <a class="btn btn-secondary" href="{% url 'auctions:update' listing.id %}">Edit listing</a>
               {% endif %}
 
             {% else %} <!-- User not logged in -->
