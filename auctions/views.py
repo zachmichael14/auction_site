@@ -30,15 +30,8 @@ class ListingCreateView(LoginRequiredMixin, CreateView):
     template_name = 'auctions/create.html'
 
     def form_valid(self, form):
-        # If the form is valid, save the associated model
-
-        # Calculate end date from duration
-        duration = datetime.timedelta(days=form.instance.duration) 
-        end_date = datetime.datetime.now() + duration
-
         # Set model fields omitted from listing form
         form.instance.seller = self.request.user
-        form.instance.end_date = end_date
         return super().form_valid(form)
 
 
@@ -95,13 +88,8 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.form_class
 
     def form_valid(self, form):
-        # Calculate end date from duration
-        duration = datetime.timedelta(days=form.instance.duration) 
-        end_date = datetime.datetime.now() + duration
-
         # Set model fields omitted from listing form
         form.instance.seller = self.request.user
-        form.instance.end_date = end_date
         return super().form_valid(form)
 
     def test_func(self):
@@ -169,6 +157,7 @@ class BrowseListingView(ListView):
 
 
 def index(request):
+    # return render(request, 'auctions/data.html')
     user = request.user
     new_arrivals = Listing.objects.recent()
 
