@@ -105,7 +105,7 @@
                     {% if user.is_authenticated %}
                     <h3 class="tab-title">Join the Conversation</h3>
                     {% get_comment_form for listing as comment_form %}
-                    <form action="{% comment_form_target %}" method="POST">
+                    <form action="{% comment_form_target %}" method="post">
                       {% csrf_token %}
                       {{ comment_form.comment }}
                       {{ comment_form.honeypot }}

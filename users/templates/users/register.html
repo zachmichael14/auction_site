@@ -11,7 +11,7 @@
         <div class="col-lg-6 col-md-8 align-item-center">
           <div class="border">
             <h3 class="bg-gray p-3">Join Today</h3>
-            <form action="{% url 'users:register' %}" method="POST">
+            <form action="{% url 'users:register' %}" method="post">
               {% csrf_token %}
               <fieldset class="p-3">
                 {{ register_form|crispy }}
