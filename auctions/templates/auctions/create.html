@@ -31,22 +31,22 @@
           </div>
           <div class="col-lg-6">
             <h6 class="font-weight-bold pt-4 pb-1">Item Category:</h6>
-            {{ form.category}}
+            {{ form.category }}
             <div class="price">
               <div class="row">
               {% if form.starting_bid %}
                 <h6 class="font-weight-bold pt-4 pb-1 pl-2">Starting Bid (USD):</h6>
                 <div class="pt-3 pl-2">{{ form.starting_bid }}</div>
               {% else %}
-                <div class="alert alert-info mt-3 ml-2">Starting bid cannot be changed once bidding has begun. </div>   
+                <div class="alert alert-info mt-3 ml-2">Starting bid cannot be changed once bidding has begun.</div>   
               {% endif %}                
               </div>
               <div class="row">
                 <h6 class="font-weight-bold pt-3 pb-1 pl-2">Auction Duration:</h6>
-                <div class="pt-2 pl-2">{{ form.duration }}</div>
-              {% if form.duration.errors %}
+                <div class="pt-2 pl-2">{{ form.end_date }}</div>
+              {% if form.end_date.errors %}
                 <div class="alert alert-danger">
-                  {{ form.duration.errors}}
+                  {{ form.end_date.errors}}
                 </div>
               {% endif %}
               </div>
