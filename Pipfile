@@ -10,6 +10,7 @@ boto3 = "*"
 django-storages = "*"
 pillow = "*"
 gunicorn = "*"
+django-on-heroku = "*"
 
 [dev-packages]
 
