@@ -136,13 +136,7 @@ class ListingUpdateForm(forms.ModelForm):
             }
         )
     )
-    image = forms.ImageField(
-        widget=forms.FileInput(
-            attrs={
-                'enctype': 'multipart/form-data',
-            }
-        )
-    )
+    image = forms.ImageField(widget=forms.FileInput())
 
     class Meta:
         model = Listing     
