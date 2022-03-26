@@ -16,7 +16,7 @@
 {% block body %}
 <section class="ad-post bg-gray py-5">
   <div class="container">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <fieldset class="border border-gray p-4 mb-4">
         <div class="row">
