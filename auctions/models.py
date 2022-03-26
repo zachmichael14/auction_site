@@ -14,13 +14,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Listing(models.Model):
     seller = models.ForeignKey(AuctionUser, on_delete=models.CASCADE, related_name='user_listings')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='listings')
     title = models.CharField(max_length=64)
     description = models.TextField()
-    image = models.ImageField(blank=True, default='no_image.png', upload_to='listing_pics')
+    image = models.ImageField(blank=True, default='media/no_image.png', upload_to='listing_pics')
     starting_bid = models.DecimalField(max_digits=10, decimal_places=2)
     creation_timestamp = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField()
