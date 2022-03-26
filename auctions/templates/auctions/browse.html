@@ -66,7 +66,7 @@
 						<ul class="category-list">
 							<li><a href="{% url 'auctions:browse' %}">All Listings <span>{{ total }}</span></a></li>
 							{% for category in categories %}
-								<li><a href="{% url 'auctions:browse' q_cat=category.name %}">{{ category }} <span>{{ category.count }}</span></a></li>
+								<li><a href="{% url 'auctions:browse' q_cat=category.name %}">{{ category|truncatewords:22 }} <span>{{ category.count }}</span></a></li>
 							{% endfor %}
 						</ul>
         </div>
