@@ -99,17 +99,17 @@
                 <ul class="list-inline mt-2 mb-3">
                   <li class="list-inline-item">
                     <a href="{% url 'auctions:listing' listing.id %}">
-                      <i id="icon-1" class="fa fa-folder-open-o"></i>{{ listing.category }}
+                      <i class="fa fa-folder-open-o"></i> {{ listing.category }}
                     </a>
                   </li>
                   <li class="list-inline-item">
                     <a href="{% url 'auctions:listing' listing.id %}">
-                      <i id="icon-1" class="fa fa-calendar"></i>{{ listing.creation_timestamp|date:"F d, Y" }}
+                      <i class="fa fa-calendar"></i> {{ listing.creation_timestamp|date:"F d, Y" }}
                     </a>
                   </li>
                   <li class="list-inline-item">
                     <a href="{% url 'auctions:listing' listing.id %}">
-                      <i id="icon-1" class="fa fa-clock-o"></i>Open for {{ listing.end_date|timeuntil }}
+                      <i class="fa fa-clock-o"></i> Open for {{ listing.end_date|timeuntil }}
                     </a>
                   </li>
                 </ul>
