@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
+DEBUG = os.environ.get('DEBUG_VALUE', False)
 
 ALLOWED_HOSTS = [
     'django-auction-ibuy.herokuapp.com',
@@ -159,5 +159,8 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+CSRF_COOKIE_SECURE = True
+
 
 django_on_heroku.settings(locals())
