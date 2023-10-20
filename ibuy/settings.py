@@ -15,7 +15,7 @@ from pathlib import Path
 from re import L
 from telnetlib import LOGOUT
 
-import django_on_heroku
+# import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +32,7 @@ DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 ALLOWED_HOSTS = [
     'django-auction-ibuy.herokuapp.com',
+    '127.0.0.1'
     ]
 
 AUTH_USER_MODEL = 'users.AuctionUser'
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'auctions.apps.AuctionsConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'crispy_bootstrap4',
     'storages',
     'django.contrib.sites',
     'django_comments',
@@ -163,4 +165,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 CSRF_COOKIE_SECURE = True
 
 
-django_on_heroku.settings(locals())
+# django_on_heroku.settings(locals())
