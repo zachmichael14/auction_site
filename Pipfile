@@ -4,16 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+django = "*"
 django-crispy-forms = "*"
 django-contrib-comments = "*"
 boto3 = "*"
 django-storages = "*"
 pillow = "*"
 gunicorn = "*"
-django-on-heroku = "*"
-django = "*"
+crispy-bootstrap4 = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.11"
