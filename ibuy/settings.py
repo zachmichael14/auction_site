@@ -41,6 +41,7 @@ AUTH_USER_MODEL = 'users.AuctionUser'
 
 INSTALLED_APPS = [
     'auctions.apps.AuctionsConfig',
+    'common.apps.CommonConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
     'crispy_bootstrap4',
