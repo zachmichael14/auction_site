@@ -12,6 +12,7 @@ django-storages = "*"
 pillow = "*"
 gunicorn = "*"
 crispy-bootstrap4 = "*"
+install = "*"
 
 [dev-packages]
 
