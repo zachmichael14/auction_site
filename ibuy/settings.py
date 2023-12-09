@@ -15,8 +15,6 @@ from pathlib import Path
 from re import L
 from telnetlib import LOGOUT
 
-# import django_on_heroku
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
+# DEBUG = os.environ.get('DJANGO_DEBUG_VALUE')
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*',
@@ -37,15 +36,7 @@ ALLOWED_HOSTS = [
 
 AUTH_USER_MODEL = 'users.AuctionUser'
 
-# Application definition
-
 INSTALLED_APPS = [
-    'auctions.apps.AuctionsConfig',
-    'common.apps.CommonConfig',
-    'users.apps.UsersConfig',
-    'crispy_forms',
-    'crispy_bootstrap4',
-    'storages',
     'django.contrib.sites',
     'django_comments',
     'django.contrib.admin',
@@ -53,7 +44,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+
+    # Local apps
+    'auctions.apps.AuctionsConfig',
+    'common.apps.CommonConfig',
+    'users.apps.UsersConfig',
+
+    # Third-party apps
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'storages',
 ]
     
 MIDDLEWARE = [
@@ -134,12 +135,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -151,19 +146,31 @@ LOGOUT_REDIRECT_URL = 'auctions:index'
 # ID for sites framework (needed for comment module)
 SITE_ID = 1
 
-# AWS S3  config 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-
-# Do not overwrite files of the same name
-AWS_S3_FILE_OVERWRITE = False
-
-AWS_DEFAULT_ACL = None
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 CSRF_COOKIE_SECURE = True
 
+# Configuration for user-uploaded files
+AWS_MEDIA_BUCKET_NAME = os.environ.get('AWS_MEDIA_BUCKET_NAME')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = f'https://{AWS_MEDIA_BUCKET_NAME}.s3.amazonaws.com/'
 
-# django_on_heroku.settings(locals())
+# Configuration for file storage.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "mediafile": {
+      "BACKEND": "storages.backends.s3.S3Storage",
+      "OPTIONS": {
+        "bucket_name": AWS_MEDIA_BUCKET_NAME
+      }
+    },
+    "staticfiles": {
+      "BACKEND": "storages.backends.s3.S3Storage",
+      "OPTIONS": {
+        "bucket_name": os.environ.get('AWS_STATIC_BUCKET_NAME')
+      }
+    }
+}
